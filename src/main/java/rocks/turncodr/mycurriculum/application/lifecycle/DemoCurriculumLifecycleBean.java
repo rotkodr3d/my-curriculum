@@ -6,42 +6,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Component;
 
-import rocks.turncodr.mycurriculum.model.DegreeProgram;
-import rocks.turncodr.mycurriculum.services.DegreeProgramJpaRepository;
+import rocks.turncodr.mycurriculum.model.Curriculum;
+import rocks.turncodr.mycurriculum.services.CurriculumJpaRepository;
 
 /**
- * Lifecycle bean that creates demo degree programs.
+ * Lifecycle bean that creates demo curricula.
  *
  *
  */
 @Component
-public class DemoDegreeProgramLifecycleBean implements SmartLifecycle {
+public class DemoCurriculumLifecycleBean implements SmartLifecycle {
 
     private boolean running;
 
     @Autowired
-    private DegreeProgramJpaRepository degreeProgramService;
+    private CurriculumJpaRepository curriculumService;
 
     @Override
     public void start() {
         running = true;
-        this.createDegreePrograms();
+        this.createCurriculum();
     }
     @SuppressWarnings("checkstyle:magicnumber")
-    private void createDegreePrograms() {
-        List<DegreeProgram> degreePrograms = degreeProgramService.findAll();
-        if (degreePrograms.size() == 0) {
-            DegreeProgram wib = new DegreeProgram();
+    private void createCurriculum() {
+        List<Curriculum> curriculum = curriculumService.findAll();
+        if (curriculum.size() == 0) {
+            Curriculum wib = new Curriculum();
             wib.setName("Wirtschaftsinformatik");
             wib.setDegree("Bachelor of Science (BSc.)");
-            wib.setNumberOfSemesters(7);
-            degreePrograms.add(wib);
-            DegreeProgram wim = new DegreeProgram();
+            wib.setAcronym("3WIB");
+            curriculum.add(wib);
+            Curriculum wim = new Curriculum();
             wim.setName("Wirtschaftsinformatik");
             wim.setDegree("Master of Science (MSc.)");
-            wim.setNumberOfSemesters(3);
-            degreePrograms.add(wim);
-            degreeProgramService.saveAll(degreePrograms);
+            wim.setAcronym("3WIM");
+            curriculum.add(wim);
+            curriculumService.saveAll(curriculum);
         }
     }
 

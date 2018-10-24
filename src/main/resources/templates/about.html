@@ -13,15 +13,15 @@
 		<thead>
 			<tr>
 				<th data-th-text="#{about.name}"/>
+				<th data-th-text="#{about.acronym}"/>
 				<th data-th-text="#{about.degree}"/>
-				<th data-th-text="#{about.numberOfSemesters}"/>
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="degreeProgram : ${degreePrograms}">
-				<td th:text="${degreeProgram.name}"/>
-				<td th:text="${degreeProgram.degree}"/>
-				<td th:text="${degreeProgram.numberOfSemesters}"/>
+			<tr th:each="curriculum : ${curriculum}">
+				<td th:text="${curriculum.name}"/>
+				<td th:text="${curriculum.acronym}"/>
+				<td th:text="${curriculum.degree}"/>
 			</tr>
 		</tbody>
 	</table>

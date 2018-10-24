@@ -6,41 +6,32 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Entity degree program.
+ * Entity curriculum.
  */
 @Entity
-public class DegreeProgram {
+public class Curriculum {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
+    private String acronym;
     private String name;
-
     private String degree;
-
-    private int numberOfSemesters;
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getDegree() {
         return degree;
     }
-
     public void setDegree(String degree) {
         this.degree = degree;
     }
-
-    public int getNumberOfSemesters() {
-        return numberOfSemesters;
+    public String getAcronym() {
+        return acronym;
     }
-
-    public void setNumberOfSemesters(int numberOfSemesters) {
-        this.numberOfSemesters = numberOfSemesters;
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
     }
 }
