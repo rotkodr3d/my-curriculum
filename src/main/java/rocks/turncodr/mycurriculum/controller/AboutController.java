@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import rocks.turncodr.mycurriculum.model.DegreeProgram;
-import rocks.turncodr.mycurriculum.services.DegreeProgramJpaRepository;
+import rocks.turncodr.mycurriculum.model.Curriculum;
+import rocks.turncodr.mycurriculum.services.CurriculumJpaRepository;
 
 /**
  * Controller class directing to the about page of the application.
@@ -17,12 +17,12 @@ import rocks.turncodr.mycurriculum.services.DegreeProgramJpaRepository;
 @Controller
 public class AboutController {
     @Autowired
-    private DegreeProgramJpaRepository degreeProgramService;
+    private CurriculumJpaRepository curriculumService;
 
     @GetMapping("/about")
     public String about(Model model) {
-        List<DegreeProgram> degreePrograms = degreeProgramService.findAll();
-        model.addAttribute("degreePrograms", degreePrograms);
+        List<Curriculum> curriculum = curriculumService.findAll();
+        model.addAttribute("curriculum", curriculum);
         return "about";
     }
 }

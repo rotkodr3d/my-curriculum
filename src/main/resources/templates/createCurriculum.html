@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>My Curriculum</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+	<h1 data-th-text="#{createCurriculum.title}"/></h1>
+	<br>
+	<form th:action="@{/createCurriculum}"
+         th:object="${curriculum}" method="POST">
+         <p data-th-text="#{createCurriculum.name}"/>
+       	 <p><input type="text" th:field="*{name}" /></p> 	 
+         <p data-th-text="#{createCurriculum.acronym}"/>
+         <p><input type="text" th:field="*{acronym}" /></p>  
+         <p data-th-text="#{createCurriculum.degree}"/>
+         <p><input type="text" th:field="*{degree}" /></p>
+         <p><button type="submit" th:text="#{general.create}" /></p>
+      </form>
+</body>
+</html>
