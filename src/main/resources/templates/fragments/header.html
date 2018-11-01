@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--/*
+    ======================================================
+     change stuff in the <head> only for testing purposes.
+     it will have no effect on the deployed page.
+     for that you have to look at the head-fragment.
+    ======================================================
+    */-->
+
+    <!--/* default css */-->
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="/css/main.css"/>
+
+    <!--/* placeholder for additional links which may be needed for some pages */-->
+    <!--/* replaces this block with the given ${links} fragment */-->
+    <th:block th:replace="${links}"/>
+
+    <!--/* default scripts */-->
+    <script src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+            <div class="navbar-header">
+                <span class="navbar-brand">my-curriculum</span>
+            </div>
+
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Modul</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" th:href="@{/module/create}">anlegen</a>
+                            <a class="dropdown-item" href="#">bearbeiten</a>
+                            <a class="dropdown-item" href="#" th:href="@{/module/showList}">anzeigen</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Studiengang</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">StuPro</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+</body>
+</html>
