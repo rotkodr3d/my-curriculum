@@ -14,7 +14,7 @@ public class Curriculum {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @NotBlank
-    @Size(min=3)
+    @Size(min = 3, max = 5)
     private String acronym;
     @NotBlank
     private String name;

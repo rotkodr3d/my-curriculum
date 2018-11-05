@@ -26,10 +26,10 @@ public class CreateCurriculumController {
         return "createCurriculum";
     }
     @PostMapping("/createCurriculum")
-    public String curriculumSubmit(@Valid @ModelAttribute Curriculum curriculum, BindingResult bindingResult) {
-        
-        if (bindingResult.hasErrors())
+    public String curriculumSubmit(@Valid @ModelAttribute Curriculum curriculum, BindingResult bindingResult) {     
+        if (bindingResult.hasErrors()) {
             return "createCurriculum";
+        }
         curriculumService.save(curriculum);
         return "redirect:/about";
     }
