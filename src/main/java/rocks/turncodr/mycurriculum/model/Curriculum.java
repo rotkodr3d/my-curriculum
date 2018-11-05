@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.validation.constraints.*;
 /**
  * Entity curriculum.
  */
@@ -13,8 +13,12 @@ public class Curriculum {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @NotBlank
+    @Size(min=3)
     private String acronym;
+    @NotBlank
     private String name;
+    @NotBlank
     private String degree;
     public String getName() {
         return name;

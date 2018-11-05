@@ -8,14 +8,24 @@
 <body>
 	<h1 data-th-text="#{createCurriculum.title}"/></h1>
 	<br>
-	<form th:action="@{/createCurriculum}"
-         th:object="${curriculum}" method="POST">
+	<form th:action="@{/createCurriculum}" th:object="${curriculum}" method="POST">
          <p data-th-text="#{createCurriculum.name}"/>
-       	 <p><input type="text" th:field="*{name}" /></p> 	 
+       	 <p>
+       	    <input type="text" th:field="*{name}" />
+       	    <p th:if="${#fields.hasErrors('name')}" th:text="#{createCurriculum.nameError}" th:errors="*{name}"/>
+       	 </p> 	 
          <p data-th-text="#{createCurriculum.acronym}"/>
-         <p><input type="text" th:field="*{acronym}" /></p>  
-         <p data-th-text="#{createCurriculum.degree}"/>
-         <p><input type="text" th:field="*{degree}" /></p>
+         <p>
+            <input type="text" th:field="*{acronym}" />
+            <p th:if="${#fields.hasErrors('acronym')}" th:text="#{createCurriculum.acronymError}" th:errors="*{acronym}"/>
+         </p>
+         <p>
+         	<select required th:field="*{degree}">
+         	  <option value="" th:text="#{createCurriculum.selectDegree}"></option>
+         	  <option value="Bachelor of Science (BSc.)">Bachelor of Science (BSc.)</option>
+         	  <option value="Master of Science (MSc.)">Master of Science (MSc.)</option>
+         	</select>
+         </p>
          <p><button type="submit" th:text="#{general.create}" /></p>
       </form>
 </body>
