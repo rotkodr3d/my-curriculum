@@ -1,9 +1,6 @@
 package rocks.turncodr.mycurriculum.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Entity module.
@@ -14,6 +11,8 @@ public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @ManyToOne
+    private ExReg exReg;
     /**
      * The code/abbreviation for this module (e.g. 0011).
      */
@@ -179,5 +178,13 @@ public class Module {
 
     public void setReadingList(String readingList) {
         this.readingList = readingList;
+    }
+
+    public ExReg getExReg() {
+        return exReg;
+    }
+
+    public void setExReg(ExReg exReg) {
+        this.exReg = exReg;
     }
 }

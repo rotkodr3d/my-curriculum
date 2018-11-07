@@ -1,0 +1,35 @@
+<!--suppress ThymeleafMessagesResolveInspection -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{exregCreate.pageTitle}"></title>
+</head>
+<body>
+<form th:action="@{/exreg/create}" th:object="${exRegWrapper}" method="POST">
+
+    <div>
+        <label th:text="#{exReg.name}"></label>
+        <input type="text" th:field="*{exReg.name}"/>
+    </div>
+
+    <div>
+        <label th:text="#{exReg.validFrom}"></label>
+        <input type="date" th:field="*{exReg.validFrom}"/>
+    </div>
+
+    <div>
+        <label th:text="#{exReg.expiresOn}"></label>
+        <input type="date" th:field="*{exReg.expiresOn}"/>
+    </div>
+
+    <div th:each="module : *{modules}">
+        <input type="checkbox" th:field="*{selectedModules}" th:value="${module.id}"/>
+        <label th:text="${module.code} + ' ' + ${module.title}"></label>
+    </div>
+
+    <button type="submit" th:text="#{general.create}"></button>
+
+</form>
+</body>
+</html>
