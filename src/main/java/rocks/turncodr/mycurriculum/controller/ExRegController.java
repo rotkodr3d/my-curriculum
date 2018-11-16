@@ -15,6 +15,8 @@ import rocks.turncodr.mycurriculum.model.Module;
 import rocks.turncodr.mycurriculum.services.ExRegJpaRepository;
 import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
 
+import java.util.List;
+
 /**
  * Controller for the Examination Regulations sites.
  */
@@ -53,6 +55,13 @@ public class ExRegController {
     public ResponseEntity<Module> testJson(@RequestBody ExReg json) {
         Module result = new Module();
         result.setCode(json.getName());
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/exreg/mapmodules/getmodules", consumes = "application/json")
+    public ResponseEntity<List<Module>> postExRegMapModulesGetModules() {
+        List<Module> result = moduleJpaRepository.findByExReg(null);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
