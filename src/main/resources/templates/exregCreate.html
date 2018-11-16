@@ -15,26 +15,29 @@
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
-<form th:action="@{/exreg/create}" th:object="${exRegWrapper}" method="POST">
+<div class="container">
 
-    <div>
-        <label th:text="#{exReg.name}"></label>
-        <input type="text" th:field="*{exReg.name}"/>
+<form th:action="@{/exreg/create}" th:object="${exReg}" method="POST">
+
+    <div class="row">
+        <label th:text="#{exReg.name}" for="exReg.name" class="col-md-4"></label>
+        <input type="text" th:field="*{name}" id="exReg.name" class="col-md-4"/>
     </div>
 
     <div>
         <label th:text="#{exReg.validFrom}"></label>
-        <input type="date" th:field="*{exReg.validFrom}"/>
+        <input type="date" th:field="*{validFrom}"/>
     </div>
 
     <div>
         <label th:text="#{exReg.expiresOn}"></label>
-        <input type="date" th:field="*{exReg.expiresOn}"/>
+        <input type="date" th:field="*{expiresOn}"/>
     </div>
 
     <button type="submit" th:text="#{general.create}"></button>
 
 </form>
+</div>
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
