@@ -28,6 +28,7 @@ public class ExReg {
      * Identifier.
      */
     private String name;
+    private int numberOfSemesters;
 
     public Integer getId() {
         return id;
@@ -59,5 +60,13 @@ public class ExReg {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getNumberOfSemesters() {
+        return numberOfSemesters;
+    }
+
+    public void setNumberOfSemesters(int numberOfSemesters) {
+        this.numberOfSemesters = numberOfSemesters;
     }
 }

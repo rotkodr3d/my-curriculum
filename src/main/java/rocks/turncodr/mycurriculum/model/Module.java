@@ -63,6 +63,15 @@ public class Module {
      * A selection of relevant literature.
      */
     private String readingList;
+    /**
+     * The ExReg semester that the module is scheduled to be in.
+     */
+    private int semester;
+    /**
+     * The position the module within its semester.
+     */
+    private int positionInSemester;
+
 
     public Integer getId() {
         return id;
@@ -186,5 +195,25 @@ public class Module {
 
     public void setExReg(ExReg exReg) {
         this.exReg = exReg;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public int getSemester() {
+        return semester;
+    }
+
+    public void setSemester(int semester) {
+        this.semester = semester;
+    }
+
+    public int getPositionInSemester() {
+        return positionInSemester;
+    }
+
+    public void setPositionInSemester(int positionInSemester) {
+        this.positionInSemester = positionInSemester;
     }
 }

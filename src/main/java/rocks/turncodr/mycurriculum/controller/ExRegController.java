@@ -1,7 +1,6 @@
 package rocks.turncodr.mycurriculum.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
