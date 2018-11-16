@@ -10,10 +10,15 @@ function addNewSemester() {
 	var semester = document.createElement("div");
 	var semesterTitle = document.createElement("div");
 	var semesterBody = document.createElement("div"); //Body of semester which contains the modules 
+	var deleteSemesterBtn = document.createElement("button");
+	var trashBinImg = document.createElement("i");
+	trashBinImg.className = "fa fa-trash";
+	deleteSemesterBtn.appendChild(trashBinImg);
 	semester.draggable = "true";
 	semesterCounter++;
 	semesterTitle.className="panel-heading";
 	semesterTitle.innerText = semesterCounter + ". Semester";
+	semesterTitle.appendChild(deleteSemesterBtn);
 	semesterBody.id = "semesterbody" + semesterCounter;
 	semesterBody.className = "semesterBody";
 	semesterBody.ondragover = function(event) {
@@ -28,7 +33,12 @@ function addNewSemester() {
 	} ;
 	semester.appendChild(semesterTitle);
 	semester.appendChild(semesterBody);
-	semesterContainer.appendChild(semester);
+	var button = document.getElementById("exregCreateModuleBtn");
+	semesterContainer.insertBefore(semester,button);
+}
+
+function deleteSemester() {
+	
 }
 
 function allowDrag(event) {

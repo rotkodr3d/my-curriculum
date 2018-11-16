@@ -14,12 +14,13 @@
 	<script class="mapModulesScript" src="../static/js/exregMapModules.js" th:src="@{/js/exregMapModules.js}"></script>
 </head>
 <body>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 	<div>
 		<div id="semesterContainer"> <!-- div for semesters and drop-->
-			<div th:text="#{exRegMapModules.addNewSemester}" onclick="addNewSemester()"><img src=""/></div> <!--  div that contains new semester-->
+			<button id="exregCreateModuleBtn" th:text="#{exRegMapModules.addNewSemester}" onclick="addNewSemester()"><img src=""/></button> <!--  div that contains new semester-->
 		</div> 
 		<div id="unmappedModulesList" ondrop="moduleListDrop(event)" ondragover="allowDrag(event)"> <!-- list of unmapped modules -->
-			<div th:id="modulelist_module+${module.id}" th:each="module : ${moduleList}" th:text=${module.title} draggable="true" 
+			<div th:id="modulelist_module+${module.id}" class="unmappedModule" th:each="module : ${moduleList}" th:text=${module.title} draggable="true" 
 				ondragstart="dragModule(event,this)" ondragend="dragModuleEnd(this)">
 			</div>
 			<button style="margin-top:30px"th:text="#{moduleCreate.createModuleHeader}"></button>
