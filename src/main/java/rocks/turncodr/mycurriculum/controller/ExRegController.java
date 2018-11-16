@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import rocks.turncodr.mycurriculum.model.ExReg;
+import rocks.turncodr.mycurriculum.model.ExRegSaveData;
 import rocks.turncodr.mycurriculum.model.Module;
 import rocks.turncodr.mycurriculum.services.ExRegJpaRepository;
 import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Controller for the Examination Regulations sites.
@@ -63,6 +66,32 @@ public class ExRegController {
         List<Module> result = moduleJpaRepository.findByExReg(null);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/exreg/save", consumes = "application/json")
+    public ResponseEntity<String> postExRegSave(@RequestBody ExRegSaveData data) {
+        ExReg exReg = exRegJpaRepository.save(data.getExReg());
+
+        for (Module module : data.getNewModuleStubs()) {
+            module.setExReg(exReg);
+        }
+        moduleJpaRepository.saveAll(data.getNewModuleStubs());
+
+        List<Module> modulesToBeMapped = new ArrayList<>();
+        for (Module module : data.getModulesToBeMapped()) {
+            Optional possibleModule = moduleJpaRepository.findById(module.getId());
+            if (possibleModule.isPresent()) {
+                Module dbModule = (Module) possibleModule.get();
+                dbModule.setSemester(module.getSemester());
+                dbModule.setPositionInSemester(module.getPositionInSemester());
+                modulesToBeMapped.add(dbModule);
+            } else {
+                //Warn the user, that the module he's trying to map does not exist any more.
+            }
+        }
+        moduleJpaRepository.saveAll(modulesToBeMapped);
+
+        return new ResponseEntity<>("data saved to Database", HttpStatus.OK);
     }
 
 }
