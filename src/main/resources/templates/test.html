@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(~{}, ~{}, ~{this :: .custom-script})">
+
+    <meta charset="UTF-8">
+    <script src="../static/js/jquery.min.js"></script>
+    <script  class="custom-script" type="text/javascript">
+        var exreg = {
+            id: 1,
+            name: "hallo",
+            validFrom: null,
+            expiresOn: null
+        };
+
+        console.log("created exreg");
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: 'POST',
+            url: 'http://localhost:8080/test/json',
+            dataType: 'json',
+            data: JSON.stringify(exreg),
+            success: function (data) {
+                console.log(data);
+                alert("success");
+            }
+        });
+
+        console.log("sent ajax");
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
