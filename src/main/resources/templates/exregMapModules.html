@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{this :: .mapModulesScript})">
+    <title th:text="#{exregCreate.pageTitle}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <!--/* default css */-->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link rel="stylesheet" href="../static/css/main.css"/>
+
+    <!--/* default scripts */-->
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+	<script class="mapModulesScript" src="../static/js/exregMapModules.js" th:src="@{/js/exregMapModules.js}"></script>
+</head>
+<body>
+	<div>
+		<div id="semesterContainer"> <!-- div for semesters and drop-->
+			<div th:text="#{exRegMapModules.addNewSemester}" onclick="addNewSemester()"><img src=""/></div> <!--  div that contains new semester-->
+		</div> 
+		<div id="unmappedModulesList" ondrop="moduleListDrop(event)" ondragover="allowDrag(event)"> <!-- list of unmapped modules -->
+			<div th:id="modulelist_module+${module.id}" th:each="module : ${moduleList}" th:text=${module.title} draggable="true" 
+				ondragstart="dragModule(event,this)" ondragend="dragModuleEnd(this)">
+			</div>
+			<button style="margin-top:30px"th:text="#{moduleCreate.createModuleHeader}"></button>
+		</div>
+		<button th:text="#{general.save}">save</button>
+	</div>
+</body>
+<style>
+	#unmappedModulesList {
+		height: 500px;
+		width: 250px;
+	}
+	
+	.semesterBody {
+		height: 150px;
+		width: 250px;
+		background: rgb(176,196,222);
+	}
+</style>
+</html>
