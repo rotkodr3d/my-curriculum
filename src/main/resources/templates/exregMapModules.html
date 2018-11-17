@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{this :: .mapModulesScript})">
     <title th:text="#{exregCreate.pageTitle}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -11,32 +11,50 @@
     <!--/* default scripts */-->
     <script src="../static/js/jquery.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
-	<script class="mapModulesScript" src="../static/js/exregMapModules.js" th:src="@{/js/exregMapModules.js}"></script>
+    <script class="mapModulesScript" src="../static/js/exregMapModules.js" th:src="@{/js/exregMapModules.js}"></script>
 </head>
+
 <body>
-	<div>
-		<div id="semesterContainer"> <!-- div for semesters and drop-->
-			<div th:text="#{exRegMapModules.addNewSemester}" onclick="addNewSemester()"><img src=""/></div> <!--  div that contains new semester-->
-		</div> 
-		<div id="unmappedModulesList" ondrop="moduleListDrop(event)" ondragover="allowDrag(event)"> <!-- list of unmapped modules -->
-			<div th:id="modulelist_module+${module.id}" th:each="module : ${moduleList}" th:text=${module.title} draggable="true" 
-				ondragstart="dragModule(event,this)" ondragend="dragModuleEnd(this)">
-			</div>
-			<button style="margin-top:30px"th:text="#{moduleCreate.createModuleHeader}"></button>
-		</div>
-		<button th:text="#{general.save}">save</button>
-	</div>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h2 th:text="#{exRegMapModules.title}">Map Modules</h2>
+    <div class="row card-group py-3">
+        <div class="col-md-8 card-group">
+            <div class="card">
+                <!--  div that contains new semester-->
+                <div class="card-header" th:text="#{exRegMapModules.semesterList}">Semester</div>
+                <div class="card-body" id="semesterContainer"></div>
+                <div class="card-footer">
+                    <button class="btn btn-warning w-100" type="button" th:text="#{exRegMapModules.addNewSemester}"
+                            onclick="addNewSemester()">
+                        <img src=""/>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card" ondrop="moduleListDrop(event);" ondragover="allowDrag(event);">
+                <div class="card-header" th:text="#{exRegMapModules.moduleList}">Module</div>
+                <!-- list of unmapped modules -->
+                <div class="card-body" id="unmappedModulesList">
+                    <div class="card bg-primary text-white" th:id="modulelist_module+${module.id}"
+                         th:each="module : ${moduleList}"
+                         draggable="true" ondragstart="drag(event);">
+                        <div class="card-header text-truncate" th:text="${module.code} + ' ' + ${module.title}"></div>
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-warning w-100" th:text="#{exRegMapModules.createModuleStub}"></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <button class="btn btn-success" type="button" th:text="#{general.save}">save</button>
+</div>
 </body>
-<style>
-	#unmappedModulesList {
-		height: 500px;
-		width: 250px;
-	}
-	
-	.semesterBody {
-		height: 150px;
-		width: 250px;
-		background: rgb(176,196,222);
-	}
-</style>
+<footer th:replace="fragments/footer :: footer"></footer>
 </html>
