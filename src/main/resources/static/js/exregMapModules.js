@@ -35,7 +35,7 @@ function addNewSemester() {
 
     var semesterTitle = $('<div></div>', {
         "class": "card-header",
-        text: semesterCounter + ". Semester",
+        html: "<span>" + semesterCounter + ". Semester</span>",
         on: {
             dragover: function (event) {
                 event.preventDefault();
@@ -50,9 +50,20 @@ function addNewSemester() {
         }
     });
 
+    $('<button></button>', {
+        "class": "btn btn-danger"
+    }).append($('<i></i>', {
+            "class": "fa fa-trash"
+        })
+    ).appendTo(semesterTitle);
+
     semester.append(semesterTitle);
     semester.append(semesterBody);
     $("#semesterContainer").append(semester);
+}
+
+function deleteSemester() {
+
 }
 
 function allowDrag(event) {
