@@ -1,7 +1,5 @@
 package rocks.turncodr.mycurriculum.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,14 +29,14 @@ public class ExRegController {
     private ExRegJpaRepository exRegJpaRepository;
     @Autowired
     private ModuleJpaRepository moduleJpaRepository;
-    
+
     @GetMapping("/exreg/mapmodules")
     public String getExRegMapModules(Model model) {
         List<Module> moduleList = moduleJpaRepository.findAll();
         model.addAttribute("moduleList", moduleList);
         return "exregMapModules";
     }
-    
+
     @GetMapping("/exreg/create")
     public String getExRegCreate(Model model) {
 
@@ -94,9 +92,9 @@ public class ExRegController {
                 dbModule.setSemester(module.getSemester());
                 dbModule.setPositionInSemester(module.getPositionInSemester());
                 modulesToBeMapped.add(dbModule);
-            } else {
-                //Warn the user, that the module he's trying to map does not exist any more.
-            }
+            } /*else {
+                Warn the user, that the module he's trying to map does not exist any more.
+            }*/
         }
         moduleJpaRepository.saveAll(modulesToBeMapped);
 

@@ -2,6 +2,9 @@ package rocks.turncodr.mycurriculum.model;
 
 import java.util.List;
 
+/**
+ * Data Object for the incoming JSON for /exreg/save.
+ */
 public class ExRegSaveData {
 
     /**
