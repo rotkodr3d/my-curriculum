@@ -39,7 +39,7 @@
                 <div class="card-header" th:text="#{exRegMapModules.moduleList}">Module</div>
                 <!-- list of unmapped modules -->
                 <div class="card-body" id="unmappedModulesList">
-                    <div class="card bg-primary text-white" th:id="modulelist_module+${module.id}"
+                    <div class="card bg-primary text-white module" th:id="modulelist_module+${module.id}"
                          th:each="module : ${moduleList}" draggable="true" ondragstart="drag(event);">
                         <div class="card-header text-truncate" th:text="${module.code} + ' ' + ${module.title}"></div>
                         <div class="card-body"></div>
