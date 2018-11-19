@@ -30,6 +30,9 @@ public class ExRegController {
     @Autowired
     private ModuleJpaRepository moduleJpaRepository;
 
+    /**
+     * TODO remove when testing finished.
+     */
     @GetMapping("/exreg/mapmodules")
     public String getExRegMapModules(Model model) {
         List<Module> moduleList = moduleJpaRepository.findAll();
@@ -48,11 +51,9 @@ public class ExRegController {
 
     @PostMapping("/exreg/create")
     public String postExRegCreate(@ModelAttribute ExReg exReg, Model model) {
-
-        //save the newly created ExReg
-        ExReg savedExReg = exRegJpaRepository.save(exReg);
-
-        return "redirect:/exreg/list";
+        List<Module> moduleList = moduleJpaRepository.findAll();
+        model.addAttribute("moduleList", moduleList);
+        return "exregMapModules";
     }
 
     @GetMapping("/test/json")
