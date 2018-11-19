@@ -21,9 +21,7 @@ function addNewSemester() {
     delBtnSemesterId[delBtnId] = semesterId;
     listOfSemester[semesterId] = {
         "semesterNr": semesterCounter,
-        "span": spanId,
-        "delBtn": delBtnId,
-        "body": semesterBodyId
+        "delBtn": delBtnId
     };
 
     var semester = $('<div></div>', {
@@ -72,7 +70,7 @@ function addNewSemester() {
         "class": "btn btn-danger",
         "id": delBtnId,
         on: {
-            click: function (obj) { //delete function with bugs, fixing needed
+            click: function (obj) {
                 var idToDelete = delBtnSemesterId[obj.target.id];
                 var semesterToDelete = listOfSemester[idToDelete];
                 var lastSemester = $("#semesterContainer").children(":last");
@@ -89,9 +87,8 @@ function addNewSemester() {
                             $(idThis).find("div.modulesArea").empty();
                             modulesLast = modules;
                         } else {
-                            $(idThis).find("div.modulesArea").empty();
-                            $(idThis).find("div.modulesArea").append(modulesLast);
-                            moduleLast = modules;
+                            $(idThis).find("div.modulesArea").empty().append(modulesLast);
+                            modulesLast = modules;
                         }
                     }
                     else if (i == semesterToDelete.semesterNr) {
@@ -115,10 +112,6 @@ function addNewSemester() {
     semesterCounter++;
 }
 
-function deleteSemester() {
-
-}
-
 function allowDrag(event) {
     event.preventDefault();
 }
@@ -131,18 +124,4 @@ function moduleListDrop(event) {
 
 function drag(event) {
     event.dataTransfer.setData("text", event.target.id);
-}
-
-function drop(event) {
-    event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    var element = document.getElementById(data);
-
-    if (event.target === document.getElementById("div1")) {
-        event.target.appendChild(element);
-    } else if (event.target === document.getElementById("list")) {
-        event.target.appendChild(element);
-    } else {
-        return;
-    }
 }
