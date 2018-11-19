@@ -1,9 +1,16 @@
-$(document).ready(function () {
-    //TODO
-});
-
+/**
+ * List of modules that already exist in the DB.
+ */
+var existingModulesMap = [];
+/**
+ * List of module stubs that are dynamically created by the user.
+ */
+var moduleStubs = [];
+/**
+ * Id Counter for the created module Stubs.
+ */
+var nextStubId = 1;
 var semesterCounter = 1;
-var listOfUnmappedModules = [];
 var delBtnSemesterId = {};//object which maps the delete button ids to semester id
 var listOfSemester = {};//object which maps the semester id to the semesterCounter
 
@@ -123,5 +130,54 @@ function moduleListDrop(event) {
 }
 
 function drag(event) {
+    //in case the event is a jQuery object and not the Browser object
+    if (event.dataTransfer === undefined) {
+        event = event.originalEvent;
+    }
     event.dataTransfer.setData("text", event.target.id);
 }
+
+function createStub() {
+    var stub = {
+        code: $('#stub_code').val(),
+        title: $('#stub_title').val(),
+        lecturers: $('#stub_lecturers').val(),
+        stubId: nextStubId
+    };
+    moduleStubs[nextStubId] = stub;
+    nextStubId++;
+
+    $('#createModuleStub').modal('hide');
+    $('#stubForm').trigger('reset');
+    addStub(stub);
+}
+
+/**
+ * Creates the card for the new stub.
+ */
+function addStub(stub) {
+    $('<div></div>', {
+        "class": "card bg-primary text-white module",
+        id: "modulelist_stub" + stub.stubId,
+        draggable: true,
+        on: {
+            dragstart: drag
+        }
+    }).append(
+        $('<div></div>', {
+            "class": "card-header text-truncate",
+            html: stub.code + ' ' + stub.title
+        })
+    ).append(
+        $('<div></div>', {
+            "class": "card-body",
+            html: stub.lecturers
+        })
+    ).appendTo($('#unmappedModulesList'));
+}
+
+$(document).ready(function () {
+    listOfUnmappedModules.forEach(function (module) {
+        existingModulesMap[module.id] = module;
+    });
+});

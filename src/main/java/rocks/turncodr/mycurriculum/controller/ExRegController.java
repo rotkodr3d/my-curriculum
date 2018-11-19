@@ -91,7 +91,6 @@ public class ExRegController {
             if (possibleModule.isPresent()) {
                 Module dbModule = (Module) possibleModule.get();
                 dbModule.setSemester(module.getSemester());
-                dbModule.setPositionInSemester(module.getPositionInSemester());
                 modulesToBeMapped.add(dbModule);
             } /*else {
                 Warn the user, that the module he's trying to map does not exist any more.
