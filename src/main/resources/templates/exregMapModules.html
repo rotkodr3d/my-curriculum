@@ -15,7 +15,8 @@
     <script src="../static/js/bootstrap.min.js"></script>
     <script class="custom-script" th:inline="javascript">
         var listOfUnmappedModules = /*[[${moduleList}]]*/ [];
-        console.log(listOfUnmappedModules);
+        var exReg = /*[[${exReg}]]*/ {};
+        console.log(exReg);
     </script>
     <script class="custom-script" src="../static/js/exregMapModules.js" th:src="@{/js/exregMapModules.js}"></script>
 </head>
@@ -45,7 +46,8 @@
                 <!-- list of unmapped modules -->
                 <div class="card-body" id="unmappedModulesList">
                     <div class="card bg-primary text-white module" th:id="modulelist_module+${module.id}"
-                         th:each="module : ${moduleList}" draggable="true" ondragstart="drag(event);">
+                         th:each="module : ${moduleList}" draggable="true" ondragstart="drag(event);"
+                         th:data-module-id="${module.id}">
                         <div class="card-header text-truncate" th:text="${module.code} + ' ' + ${module.title}"></div>
                         <div class="card-body"></div>
                     </div>
@@ -58,7 +60,7 @@
         </div>
 
     </div>
-    <button class="btn btn-success" type="button" th:text="#{general.save}">save</button>
+    <button class="btn btn-success" type="button" th:text="#{general.save}" onclick="save();">save</button>
     <div th:replace="fragments/popup :: createModuleStub"></div>
 </div>
 <footer th:replace="fragments/footer :: footer"></footer>

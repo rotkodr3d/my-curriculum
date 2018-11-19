@@ -78,13 +78,18 @@ public class ExRegController {
 
     @PostMapping(value = "/exreg/save", consumes = "application/json")
     public ResponseEntity<String> postExRegSave(@RequestBody ExRegSaveData data) {
+        //TODO: Listen auf null prüfen und ggf. erstellen
+
+        //save new ExReg
         ExReg exReg = exRegJpaRepository.save(data.getExReg());
 
+        //map the new Module stubs to the new ExReg and save them to the DB
         for (Module module : data.getNewModuleStubs()) {
             module.setExReg(exReg);
         }
         moduleJpaRepository.saveAll(data.getNewModuleStubs());
 
+        //map the already existing Modules to the new ExReg and save them
         List<Module> modulesToBeMapped = new ArrayList<>();
         for (Module module : data.getModulesToBeMapped()) {
             Optional possibleModule = moduleJpaRepository.findById(module.getId());

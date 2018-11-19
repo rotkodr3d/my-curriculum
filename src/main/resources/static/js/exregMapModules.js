@@ -159,6 +159,7 @@ function addStub(stub) {
     $('<div></div>', {
         "class": "card bg-primary text-white module",
         id: "modulelist_stub" + stub.stubId,
+        "data-stub-id": stub.stubId,
         draggable: true,
         on: {
             dragstart: drag
@@ -176,7 +177,68 @@ function addStub(stub) {
     ).appendTo($('#unmappedModulesList'));
 }
 
+/**
+ * Saves all mapped Module stubs and Modules.
+ */
+function save() {
+    console.log("save()");
+    var stubsToBeMapped = [];
+    var modulesToBeMapped = [];
+
+    $('#semesterContainer').children('div').each(function (semesterIndex, semester) {
+        console.log("semesterIndex = " + semesterIndex);
+        $(semester).find("div.module").each(function (moduleIndex, module) {
+            console.log("moduleIndex = " + moduleIndex);
+
+            console.log("module.hasAttribute(\"data-module-id\") = " + module.hasAttribute("data-module-id"));
+            console.log("module.hasAttribute(\"data-stub-id\") = " + module.hasAttribute("data-stub-id"));
+            if (module.hasAttribute("data-module-id")) {
+
+                //module is an existing module, not a stub
+                var moduleId = module.getAttribute("data-module-id");
+                var module = existingModulesMap[moduleId];
+                console.log({"module" : module, id: moduleId});
+                console.log("found module: " + module.title);
+                module.semester = semesterIndex + 1;
+                modulesToBeMapped.push(module);
+
+            } else if (module.hasAttribute("data-stub-id")) {
+
+                //module is a stub
+                var stubId = module.getAttribute("data-stub-id");
+                var stub = moduleStubs[stubId];
+                console.log("found stub: " + stub.title);
+                stub.semester = semesterIndex + 1;
+                delete stub.stubId;
+                stubsToBeMapped.push(stub);
+
+            }
+        });
+    });
+
+    var exregData = {
+        exReg: exReg,
+        newStubs: stubsToBeMapped,
+        modules: modulesToBeMapped
+    };
+
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: 'POST',
+        url: '/exreg/save',
+        dataType: 'json',
+        data: JSON.stringify(exregData),
+        success: function (data) {
+            alert(data);
+        }
+    });
+}
+
 $(document).ready(function () {
+    console.log({"listOfUnmappedModules": listOfUnmappedModules});
     listOfUnmappedModules.forEach(function (module) {
         existingModulesMap[module.id] = module;
     });
