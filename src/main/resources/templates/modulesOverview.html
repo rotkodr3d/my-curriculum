@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{})">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    <div th:each="semester : ${#numbers.sequence(1,exRegSemester)}" th:text="semester">
+        <div th:each="module : ${exRegModules}">
+            <div th:text="${module.title}">
+                <div th:text="${module.code}"></div>
+                <div th:text="${module.title}"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

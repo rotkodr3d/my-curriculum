@@ -1,5 +1,6 @@
 package rocks.turncodr.mycurriculum.application.lifecycle;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Component;
 import rocks.turncodr.mycurriculum.model.Module;
 import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
 import rocks.turncodr.mycurriculum.model.Curriculum;
+import rocks.turncodr.mycurriculum.model.ExReg;
 import rocks.turncodr.mycurriculum.services.CurriculumJpaRepository;
+import rocks.turncodr.mycurriculum.services.ExRegJpaRepository;
 
 /**
  * Lifecycle bean that creates demo curricula.
@@ -25,14 +28,27 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
 
     @Autowired
     private CurriculumJpaRepository curriculumService;
-
+    
+    @Autowired
+    private ExRegJpaRepository exregJpaRepository;
     @Override
     public void start() {
         running = true;
+        this.createExreg();
         this.createModules();
         this.createCurriculum();
     }
-
+    
+    @SuppressWarnings("checkstyle:magicnumber")
+    private void createExreg() {
+        ExReg wib = new ExReg();
+        wib.setId(1);
+        wib.setName("Wirtschaftsinformatik");
+        wib.setExpiresOn(new Date(1538344800000l));
+        wib.setNumberOfSemesters(6);
+        exregJpaRepository.save(wib);
+    }
+    
     @SuppressWarnings("checkstyle:magicnumber")
     private void createCurriculum() {
         List<Curriculum> curriculum = curriculumService.findAll();
@@ -92,7 +108,25 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module2.setTeachingMethodology("Vorlesung mit begleitendem Praktikum.");
             module2.setReadingList("Mathematik für Wirtschaftswissenschaftler");
             modules.add(module2);
-
+            
+            Module module3 = new Module();
+            module3.setCode("0090");
+            module3.setTitle("Datenbanksysteme");
+            module3.setSubtitle("");
+            module3.setOfferFrequency("jedes Semester");
+            module3.setModuleCoordinator("Prof. Dr. Ilia Petrov");
+            module3.setLecturers("Prof. Dr. Ilia Petrov");
+            module3.setTeachingLanguage("deutsch");
+            module3.setCredits(7);
+            module3.setPrerequisites("keine");
+            module3.setRecommendedPrerequisites("0031,0041,0081");
+            module3.setLearningOutcomes("Datenbanksysteme verstehen und erstellen");
+            module3.setContents("Kenntnis der grundlegenden Konzepte");
+            module3.setTeachingMethodology("Vorlesung mit begleitendem Praktikum.");
+            module3.setReadingList("Datenbanksysteme für Informatiker");
+            module3.setExReg(exregJpaRepository.findAll().get(0));
+            modules.add(module3);
+            
             moduleJpaRepository.saveAll(modules);
         }
     }
