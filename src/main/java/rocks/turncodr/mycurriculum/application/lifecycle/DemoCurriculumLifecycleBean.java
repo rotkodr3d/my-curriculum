@@ -40,6 +40,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
     public void start() {
         running = true;
         this.createAreaOfStudies();
+        this.createExreg();
         this.createModules();
         this.createCurriculum();
         this.createExregWIB();
@@ -436,7 +437,16 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
 
         return grundlagenBWL;
     }
-
+    
+    @SuppressWarnings("checkstyle:magicnumber")
+    private void createExreg() {
+        ExReg wib = new ExReg();
+        wib.setName("Wirtschaftsinformatik");
+        wib.setExpiresOn(new Date(1538344800000l));
+        wib.setNumberOfSemesters(6);
+        exregJpaRepository.save(wib);
+    }
+    
     @SuppressWarnings("checkstyle:magicnumber")
     private void createCurriculum() {
         List<Curriculum> curriculum = curriculumService.findAll();
@@ -498,7 +508,25 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module2.setTeachingMethodology("Vorlesung mit begleitendem Praktikum.");
             module2.setReadingList("Mathematik für Wirtschaftswissenschaftler");
             modules.add(module2);
-
+            
+            Module module3 = new Module();
+            module3.setCode("0090");
+            module3.setTitle("Datenbanksysteme");
+            module3.setSubtitle("");
+            module3.setOfferFrequency("jedes Semester");
+            module3.setModuleCoordinator("Prof. Dr. Ilia Petrov");
+            module3.setLecturers("Prof. Dr. Ilia Petrov");
+            module3.setTeachingLanguage("deutsch");
+            module3.setCredits(7);
+            module3.setPrerequisites("keine");
+            module3.setRecommendedPrerequisites("0031,0041,0081");
+            module3.setLearningOutcomes("Datenbanksysteme verstehen und erstellen");
+            module3.setContents("Kenntnis der grundlegenden Konzepte");
+            module3.setTeachingMethodology("Vorlesung mit begleitendem Praktikum.");
+            module3.setReadingList("Datenbanksysteme für Informatiker");
+            module3.setExReg(exregJpaRepository.findAll().get(0));
+            modules.add(module3);
+            
             moduleJpaRepository.saveAll(modules);
         }
     }
