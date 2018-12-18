@@ -9,7 +9,6 @@
     <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="#{${error}}"></div>
     <th:block th:if="${error == null}">
         <h1 th:text="#{exregSyllabus.syllabus}"></h1>
-
         <!-- list of modules by semester -->
         <div>
             <h2 th:text="#{exregSyllabus.moduleList}"></h2>
