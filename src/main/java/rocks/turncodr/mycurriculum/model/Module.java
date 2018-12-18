@@ -1,8 +1,14 @@
 package rocks.turncodr.mycurriculum.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PositiveOrZero;
-import javax.persistence.*;
+import java.util.Comparator;
 
 /**
  * Entity module.
@@ -10,6 +16,15 @@ import javax.persistence.*;
 @Entity
 public class Module {
 
+    public static final Comparator<Module> ALPHABETICAL_ORDER = new Comparator<Module>() {
+        public int compare(Module module1, Module module2) {
+            int res = String.CASE_INSENSITIVE_ORDER.compare(module1.getCode(), module2.getCode());
+            if (res == 0) {
+                res = module1.getCode().compareTo(module2.getCode());
+            }
+            return res;
+        }
+    };
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -57,15 +72,19 @@ public class Module {
     /**
      * Learning goals of this module and competencies acquired.
      */
+    @Lob
     private String learningOutcomes;
+    @Lob
     private String contents;
     /**
      * The mode the contents are taught in (e.g. seminar and tutorial) .
      */
+    @Lob
     private String teachingMethodology;
     /**
      * A selection of relevant literature.
      */
+    @Lob
     private String readingList;
     /**
      * The ExReg semester that the module is scheduled to be in.

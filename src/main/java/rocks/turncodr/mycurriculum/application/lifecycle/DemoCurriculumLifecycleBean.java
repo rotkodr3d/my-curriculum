@@ -1,19 +1,20 @@
 package rocks.turncodr.mycurriculum.application.lifecycle;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Component;
-import rocks.turncodr.mycurriculum.model.Module;
-import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
 import rocks.turncodr.mycurriculum.model.Curriculum;
+import rocks.turncodr.mycurriculum.model.ExReg;
+import rocks.turncodr.mycurriculum.model.Module;
 import rocks.turncodr.mycurriculum.services.CurriculumJpaRepository;
+import rocks.turncodr.mycurriculum.services.ExRegJpaRepository;
+import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
+
+import java.sql.Date;
+import java.util.List;
 
 /**
  * Lifecycle bean that creates demo curricula.
- *
- *
  */
 @Component
 public class DemoCurriculumLifecycleBean implements SmartLifecycle {
@@ -26,11 +27,76 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
     @Autowired
     private CurriculumJpaRepository curriculumService;
 
+    @Autowired
+    private ExRegJpaRepository exregJpaRepository;
+
     @Override
     public void start() {
         running = true;
         this.createModules();
         this.createCurriculum();
+        this.createExregWIB();
+    }
+
+    @SuppressWarnings("checkstyle:magicnumber")
+    private void createExregWIB() {
+        ExReg wib = new ExReg();
+        wib.setId(1);
+        wib.setName("Wirtschaftsinformatik Bachelor");
+        wib.setValidFrom(Date.valueOf("2018-01-01"));
+        wib = exregJpaRepository.save(wib);
+        System.out.println("WIB ID: " + wib.getId());
+
+        Module bwl = new Module();
+        bwl.setTitle("Grundlagen der Betriebswirtschaftslehre");
+        bwl.setCode("WIB11");
+        bwl.setSubtitle("");
+        bwl.setOfferFrequency("jedes Semester");
+        bwl.setModuleCoordinator("Prof. Dr. Josef Schürle");
+        bwl.setLecturers("Prof. Dr. Josef Schürle");
+        bwl.setTeachingLanguage("Deutsch");
+        bwl.setSemester(1);
+        bwl.setCredits(5);
+        bwl.setPrerequisites("Keine");
+        bwl.setRecommendedPrerequisites("Keine");
+        bwl.setLearningOutcomes(
+                "Die Studierenden kennen grundlegende Begriffe aus der Betriebswirtschaftslehre und verstehen \n"
+                        + "ihre  Bedeutung.  Die  Studierenden  verstehen  betriebswirtschaftliche  Zielkonzeptionen  sowie \n"
+                        + "insbesondere die wertorientierte Unternehmensführung als zentralen Erfolgsmaßstab. Die \n"
+                        + "Studierenden kennen wesentliche Eigenschaften der bedeutendsten Rechtsformen in Deutschland \n"
+                        + "und sind in der Lage, die sich aus den jeweiligen Rechtsformen ergebenden \n"
+                        + "betriebswirtschaftlichen Konsequenzen zu beurteilen. Die Studierenden kennen unterschiedliche \n"
+                        + "Formen der Kooperation von Unternehmen bzw. Formen von Unternehmenszusammenschlüssen \n"
+                        + "sowie ausgewählte Aspekte der Unternehmensführung.\n\n"
+                        + "Fertigkeiten:\n"
+                        + "Die  Studierenden  wenden  das  theoretische  Fachwissen  auf  konkrete  betriebswirtschaftliche \n"
+                        + "Fragestellungen  an.  Sie  sind  in  der  Lage,  quantitative  Ergebnisse  abzuleiten,  anhand  derer\n"
+                        + "Entscheidungsalternativen zu beurteilen und da\n"
+                        + "raus Entscheidungsvorschläge abzuleiten.\n"
+                        + "Kompetenzen:\n"
+                        + "Die Studierenden denken in wirtschaftlichen Zusammenhängen und sind in der Lage, sich \n"
+                        + "bezüglich grundlegender betriebswirtschaftlicher Sachverhalte eine fundierte Meinung zu bilden. \n"
+                        + "Sie verstehen die \ngrundlegenden Konzepte zur Beurteilung wirtschaftlichen Erfolgs sowie den \n"
+                        + "Zusammengang zwischen Ergebnis und Risikoverteilung.Die Studierenden sind in der Lage, \n"
+                        + "dieses Wissen auf ihr Handeln zu überragen.");
+        bwl.setContents("Grundbegriffe und Erfolgsmaßstäbe der Betriebswirtschaftslehre\n "
+                + "Betriebswirtschaftliche Zielkonzeption\n "
+                + "Grundlagen der wertorientierten Unternehmensführung\n "
+                + "Rechtsformen und deren betriebswirtschaftliche Konsequenzen \n "
+                + "(insb. Unternehmensführung, Gewinnverteilung, Haftung, Finanzierung und Steuern)\n "
+                + "Unternehmenszusammenschlüsse\n "
+                + "Ausgewählte Aspekte der Unternehmensführung (Organisation, Personal)");
+        bwl.setTeachingMethodology(
+                "Vermittlung der theoretischen Grundlagen mittels Beamer-Präsentation, ergänzt durch \n "
+                        + "Tafelanschriebe. Gemeinsame Besprechung und Analyse aktueller wirtschaftlicher Ereignisse \n "
+                        + "anhand von Presseartikeln. Studierende erarbeiten Lösungen zu Übungsaufgaben in \n "
+                        + "Gruppenarbeit und präsentieren ihre Ergebnisse im Plenum");
+        bwl.setReadingList("Jung (2013): Allgemeine Betriebswirtschaftslehre. 13. Auflage. Berlin: De Gruyter.\n"
+                + "Wöhe (2016): Einführung in die Allgemeine Betriebswirtschaftslehre. 26. Auflage. München: Vahlen\n"
+                + "Wöhe / Kaiser / Döring (2016): Übungsbuch zur allgemeinen Betriebswirtschaftslehre. 15. Auflage. München: Vahlen");
+        bwl.setExReg(wib);
+
+        moduleJpaRepository.save(bwl);
     }
 
     @SuppressWarnings("checkstyle:magicnumber")
