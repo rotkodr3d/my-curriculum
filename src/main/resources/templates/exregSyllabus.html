@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{})">
+    <title th:text="#{exregSyllabus.exregSyllabus}">My Curriculum</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="#{${error}}"></div>
+    <th:block th:if="${error == null}">
+        <h1 th:text="#{exregSyllabus.syllabus}"></h1>
+
+        <!-- list of modules by semester -->
+        <div>
+            <h2 th:text="#{exregSyllabus.moduleList}"></h2>
+            <div class="table-responsive">
+                <table class="table table-sm">
+
+                    <thead>
+                    <tr class="table-primary">
+                        <th th:text="#{exregSyllabus.semester}"></th>
+                        <th th:text="#{exregSyllabus.module}"></th>
+                        <th th:text="#{exregSyllabus.ects}"></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <th:block th:each="semester : ${syllabus.semesters}">
+                        <tr class="table-primary">
+                            <td th:text="#{general.semester} + ' ' + ${semester.number}" colspan="2">Semester 1</td>
+                            <td th:text="${semester.credits}">30</td>
+                        </tr>
+                        <tr th:each="module : ${semester.modules}">
+                            <td th:text="${module.code}">WIB11</td>
+                            <td>
+                                <a th:text="${module.title}" th:href="'#module' + ${module.id}"
+                                   class="no-underline"></a>
+                            </td>
+                            <td th:text="${module.credits}">5</td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+
+                    <tfoot>
+                    <tr class="table-primary">
+                        <td th:text="#{exregSyllabus.totalCredits}" colspan="2"></td>
+                        <td th:text="${syllabus.totalCredits}"></td>
+                    </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+        </div>
+
+        <!-- description of each module in semester order -->
+        <th:block th:each="semester : ${syllabus.semesters}">
+            <div th:each="module : ${semester.modules}" class="mt-5" th:id="'module' + ${module.id}">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th class="border-top-0 col-sm-5">
+                                <h2 th:text="#{module.module}" class="font-weight-bold my-0"></h2>
+                            </th>
+                            <td class="border-top-0 col-sm-7">
+                                <h2 th:text="${module.title}"></h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{module.code}"></th>
+                            <td th:text="${module.code}"></td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{module.subtitle}"></th>
+                            <td th:text="${module.subtitle}"></td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{module.offerFrequency}"></th>
+                            <td th:text="${module.offerFrequency}"></td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{module.moduleCoordinator}"></th>
+                            <td th:text="${module.moduleCoordinator}"></td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{module.lecturers}"></th>
+                            <td th:text="${module.lecturers}"></td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{module.teachingLanguage}"></th>
+                            <td th:text="${module.teachingLanguage}"></td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{module.credits}"></th>
+                            <td th:text="${module.credits}"></td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{module.prerequisites}"></th>
+                            <td th:text="${module.prerequisites}"></td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{module.recommendedPrerequisites}" class="border-bottom"></th>
+                            <td th:text="${module.recommendedPrerequisites}" class="border-bottom"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mb-4">
+                    <h4 th:text="#{module.learningOutcomes}"></h4>
+                    <div th:text="${module.learningOutcomes}"></div>
+                </div>
+                <div class="mb-4">
+                    <h4 th:text="#{module.contents}"></h4>
+                    <div th:text="${module.contents}"></div>
+                </div>
+                <div class="mb-4">
+                    <h4 th:text="#{module.teachingMethodology}"></h4>
+                    <div th:text="${module.teachingMethodology}"></div>
+                </div>
+                <div class="mb-4">
+                    <h4 th:text="#{module.readingList}"></h4>
+                    <div th:text="${module.readingList}"></div>
+                </div>
+            </div>
+        </th:block>
+    </th:block>
+</div>
+<footer th:replace="fragments/footer ::footer"></footer>
+</body>
+</html>

@@ -1,2 +1,5 @@
-
+.no-underline, .no-underline:link, .no-underline:visited, .no-underline:hover, .no-underline:active{
+    text-decoration: none;
+    color: inherit;
+}
 
