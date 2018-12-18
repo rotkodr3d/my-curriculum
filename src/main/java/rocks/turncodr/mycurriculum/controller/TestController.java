@@ -1,48 +1,29 @@
 package rocks.turncodr.mycurriculum.controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.thymeleaf.standard.expression.OGNLContextPropertyAccessor;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.xhtmlrenderer.pdf.ITextRenderer;
-
-import com.lowagie.text.DocumentException;
+import rocks.turncodr.mycurriculum.services.PdfGeneratorUtil;
 
 @Controller
 public class TestController {
-
-	@GetMapping("/test/pdf")
-	public String getTest() throws IOException, DocumentException {
-		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-		templateResolver.setPrefix("templates/");
-		templateResolver.setSuffix(".html");
-		templateResolver.setTemplateMode("HTML");
-
-		TemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.setTemplateResolver(templateResolver);
-
-		Context context = new Context();
-		context.setVariable("name", "Chris");
-
-		// Get the plain HTML with the resolved ${name} variable!
-		String html = templateEngine.process("test", context);
-
-		OutputStream outputStream = new FileOutputStream("message.pdf");
-		ITextRenderer renderer = new ITextRenderer();
-		renderer.setDocumentFromString(html);
-		renderer.layout();
-		renderer.createPDF(outputStream);
-		outputStream.close();
+    
+    @Autowired
+    PdfGeneratorUtil pdfGeneratorUtil;
+    
+	@GetMapping("/test")
+	public String getTest(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		Map<String,String> data = new HashMap<String,String>();
+		data.put("name", "Chris");
+		model.addAttribute("name", "Chris");
+		pdfGeneratorUtil.createPdf("test", data, request, response);
 		return "test";
-
 	}
 }
