@@ -521,7 +521,10 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module3.setCredits(7);
             module3.setPrerequisites("keine");
             module3.setRecommendedPrerequisites("0031,0041,0081");
-            module3.setLearningOutcomes("Datenbanksysteme verstehen und erstellen");
+            module3.setLearningOutcomes("Das Ziel des Moduls ist es, den Studierenden eine allgemeine Einführung in das \r\n" + 
+                    "Themengebiet Datenbank\r\n" + 
+                    "-\r\n" + 
+                    "und Informationssystemen zu geben.");
             module3.setContents("Kenntnis der grundlegenden Konzepte");
             module3.setTeachingMethodology("Vorlesung mit begleitendem Praktikum.");
             module3.setReadingList("Datenbanksysteme für Informatiker");
@@ -531,7 +534,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             Module module4 = new Module();
             module4.setCode("0080");
             module4.setTitle("Webprogrammierung");
-            module4.setSemester(4);
+            module4.setSemester(3);
             module4.setSubtitle("");
             module4.setOfferFrequency("jedes Semester");
             module4.setModuleCoordinator("M.Sc. Matthias Gutbrod");
