@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-<html>
-<head th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{})">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{this :: .custom-script})">
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<script class="custom-script" th:inline="javascript">
+    var exRegModules = /*[[${exRegModules}]]*/ {};
+    console.log(exRegModules);
+</script>
+<script class="custom-script" src="../static/js/moduleOverview.js" th:src="@{/js/moduleOverview.js}"></script>
 </head>
 <body>
-    <header th:replace="fragments/header :: header"></header>
-    <div th:each="semester : ${#numbers.sequence(1,exRegSemester)}" th:text="semester">
-        <div th:each="module : ${exRegModules}">
-            <div th:text="${module.title}">
-                <div th:text="${module.code}"></div>
-                <div th:text="${module.title}"></div>
-            </div>
-        </div>
-    </div>
+	<header th:replace="fragments/header :: header"></header>
+	<table class="table table-sm">
+		<tbody>
+			<tr th:each="i : ${#numbers.sequence(1,exRegSemester)}">
+				<td th:text="${i + '. Semester'}" class="col-md-1"></td>
+				<td th:each="module : ${exRegModules}"
+					th:if="${module.semester} == ${i}" th:id="${module.id}" onclick="showModuleDetails(event);" class="module">
+					<div class="card" style="background-color: rgb(25, 125, 255)">
+						<div th:text="${module.code + '&nbsp' + module.title}"
+							class="card-body"></div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </body>
 </html>

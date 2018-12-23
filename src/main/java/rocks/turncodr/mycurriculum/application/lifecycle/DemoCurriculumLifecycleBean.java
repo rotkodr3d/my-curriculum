@@ -512,6 +512,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             Module module3 = new Module();
             module3.setCode("0090");
             module3.setTitle("Datenbanksysteme");
+            module3.setSemester(3);
             module3.setSubtitle("");
             module3.setOfferFrequency("jedes Semester");
             module3.setModuleCoordinator("Prof. Dr. Ilia Petrov");
@@ -526,6 +527,25 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module3.setReadingList("Datenbanksysteme für Informatiker");
             module3.setExReg(exregJpaRepository.findAll().get(0));
             modules.add(module3);
+            
+            Module module4 = new Module();
+            module4.setCode("0080");
+            module4.setTitle("Webprogrammierung");
+            module4.setSemester(4);
+            module4.setSubtitle("");
+            module4.setOfferFrequency("jedes Semester");
+            module4.setModuleCoordinator("M.Sc. Matthias Gutbrod");
+            module4.setLecturers("M.Sc. Matthias Gutbrod");
+            module4.setTeachingLanguage("englisch");
+            module4.setCredits(7);
+            module4.setPrerequisites("keine");
+            module4.setRecommendedPrerequisites("0031,0041,0081");
+            module4.setLearningOutcomes("Grundlagen zur Programmierung von Webseiten.");
+            module4.setContents("Kenntnis der grundlegenden Konzepte");
+            module4.setTeachingMethodology("Vorlesung mit begleitendem Praktikum.");
+            module4.setReadingList("HTML 5, PHP für Dummies, JavaScript für Dummies.");
+            module4.setExReg(exregJpaRepository.findAll().get(0));
+            modules.add(module4);
             
             moduleJpaRepository.saveAll(modules);
         }
