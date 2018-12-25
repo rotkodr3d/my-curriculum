@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{})">
+    <title th:text="#{exregSyllabus.exregSyllabus}">My Curriculum</title>
+</head>
+<body>
+<div class="container">
+    <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="#{${error}}"></div>
+    <th:block th:if="${error == null}">
+        <h1 th:text="#{exregSyllabus.syllabus}"></h1>
+
+        <!-- list of modules by semester -->
+        <div>
+            <h2 th:text="#{exregSyllabus.moduleList}"></h2>
+            <div class="table-responsive">
+            <table class="table table-sm">
+
+                <thead>
+                <tr class="table-primary">
+                    <th th:text="#{exregSyllabus.semester}"></th>
+                    <th th:text="#{exregSyllabus.module}"></th>
+                    <th th:text="#{exregSyllabus.ects}"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td colspan="3">&nbsp;</td>
+                </tr>
+
+                <th:block th:each="semester : ${syllabus.semesters}">
+                    <tr class="table-primary">
+                        <td th:text="#{general.semester} + ' ' + ${semester.number}" colspan="2">Semester 1</td>
+                        <td th:text="${semester.credits}">30</td>
+                    </tr>
+                    <tr th:each="module : ${semester.modules}">
+                        <td th:text="${module.code}">WIB11</td>
+                        <td th:text="${module.title}">Grundlagen der Betriebswirtschaftslehre</td>
+                        <td th:text="${module.credits}">5</td>
+                    </tr>
+                </th:block>
+                </tbody>
+
+                <tfoot>
+                <tr>
+                    <td th:text="#{exregSyllabus.totalCredits}" colspan="2"></td>
+                    <td th:text="${syllabus.totalCredits}"></td>
+                </tr>
+                </tfoot>
+
+            </table>
+            </div>
+        </div>
+
+        <!-- description of each module in semester order -->
+        <th:block th:each="semester : ${syllabus.semesters}">
+            <div th:each="module : ${semester.modules}">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th th:text="#{module.module}"></th>
+                        <td th:text="${module.title}"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{module.code}"></th>
+                        <td th:text="${module.code}"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{module.subtitle}"></th>
+                        <td th:text="${module.subtitle}"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{module.offerFrequency}"></th>
+                        <td th:text="${module.offerFrequency}"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{module.moduleCoordinator}"></th>
+                        <td th:text="${module.moduleCoordinator}"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{module.lecturers}"></th>
+                        <td th:text="${module.lecturers}"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{module.teachingLanguage}"></th>
+                        <td th:text="${module.teachingLanguage}"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{module.credits}"></th>
+                        <td th:text="${module.credits}"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{module.prerequisites}"></th>
+                        <td th:text="${module.prerequisites}"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{module.recommendedPrerequisites}"></th>
+                        <td th:text="${module.recommendedPrerequisites}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <h2 th:text="#{module.learningOutcomes}"></h2>
+                    <div th:text="${module.learningOutcomes}"></div>
+                </div>
+                <div>
+                    <h2 th:text="#{module.contents}"></h2>
+                    <div th:text="${module.contents}"></div>
+                </div>
+                <div>
+                    <h2 th:text="#{module.teachingMethodology}"></h2>
+                    <div th:text="${module.teachingMethodology}"></div>
+                </div>
+                <div>
+                    <h2 th:text="#{module.readingList}"></h2>
+                    <div th:text="${module.readingList}"></div>
+                </div>
+            </div>
+        </th:block>
+    </th:block>
+</div>
+</body>
+</html>
