@@ -55,6 +55,17 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-md-4 col-form-label" th:text="#{module.areaOfStudies}" for="areaOfStudies"></label>
+                    <div class="col-md-8">
+                        <select class="form-control" th:classappend="${#fields.hasErrors('areaOfStudies')} ? is-invalid : ''"
+                               th:field="*{areaOfStudies}" id="areaOfStudies">
+                               <option value="0"></option>
+                               <option th:each="option : ${areaOfStudies}" th:value="${option.id}" th:text="${option.name}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('areaOfStudies')}" th:errors="*{areaOfStudies}"></div>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-md-4 col-form-label" th:text="#{module.subtitle}"
                            for="subtitle">Untertitel</label>
                     <div class="col-md-8">

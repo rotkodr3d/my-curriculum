@@ -1,7 +1,6 @@
 package rocks.turncodr.mycurriculum.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import rocks.turncodr.mycurriculum.model.AreaOfStudies;
 import rocks.turncodr.mycurriculum.model.Module;
+import rocks.turncodr.mycurriculum.services.AreaOfStudiesJpaRepository;
 import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
 
 import javax.validation.Valid;
@@ -24,13 +25,17 @@ public class ModuleController {
     @Autowired
     private ModuleJpaRepository moduleJpaRepository;
 
+    @Autowired
+    private AreaOfStudiesJpaRepository areaOfStudiesJpaRepository;
+
     @GetMapping("/module/create")
     public String getModuleCreate(Model model) {
         // Create empty module object for form data (will be received in
         // postModuleCreate as parameter 'module')
         Module module = new Module();
         model.addAttribute("module", module);
-
+        List<AreaOfStudies> areaOfStudiesList = areaOfStudiesJpaRepository.findAll();
+        model.addAttribute("areaOfStudies", areaOfStudiesList);
         // Set moduleCreate.html as template to be parsed
         return "moduleCreate";
     }
@@ -48,7 +53,7 @@ public class ModuleController {
             // Saving the form values to database
             moduleJpaRepository.save(module);
 
-            return "redirect:/module/List";
+            return "redirect:/module/list";
         }
     }
 

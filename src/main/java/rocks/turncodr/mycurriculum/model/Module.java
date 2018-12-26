@@ -72,6 +72,8 @@ public class Module {
      */
     private int semester;
 
+    @ManyToOne
+    private AreaOfStudies areaOfStudies;
 
     public Integer getId() {
         return id;
@@ -207,5 +209,13 @@ public class Module {
 
     public void setSemester(int semester) {
         this.semester = semester;
+    }
+
+    public AreaOfStudies getAreaOfStudies() {
+        return areaOfStudies;
+    }
+
+    public void setAreaOfStudies(AreaOfStudies areaOfStudies) {
+        this.areaOfStudies = areaOfStudies;
     }
 }

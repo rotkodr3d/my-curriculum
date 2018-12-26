@@ -7,7 +7,9 @@ import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Component;
 import rocks.turncodr.mycurriculum.model.Module;
 import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
+import rocks.turncodr.mycurriculum.model.AreaOfStudies;
 import rocks.turncodr.mycurriculum.model.Curriculum;
+import rocks.turncodr.mycurriculum.services.AreaOfStudiesJpaRepository;
 import rocks.turncodr.mycurriculum.services.CurriculumJpaRepository;
 
 /**
@@ -26,9 +28,13 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
     @Autowired
     private CurriculumJpaRepository curriculumService;
 
+    @Autowired
+    private AreaOfStudiesJpaRepository areaOfStudiesJpaRepository;
+
     @Override
     public void start() {
         running = true;
+        this.createAreaOfStudies();
         this.createModules();
         this.createCurriculum();
     }
@@ -63,6 +69,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module1.setCode("0081");
             module1.setTitle("Fortgeschrittene Programmierung");
             module1.setSubtitle("");
+            module1.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Informatik"));
             module1.setOfferFrequency("jedes Semester");
             module1.setModuleCoordinator("Prof. Dr. rer. nat. Martin Schmollinger");
             module1.setLecturers("Prof. Dr. rer. nat. Martin Schmollinger");
@@ -80,6 +87,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module2.setCode("0091");
             module2.setTitle("Wirtschaftsmathematik");
             module2.setSubtitle("");
+            module2.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("BWL"));
             module2.setOfferFrequency("jedes Semester");
             module2.setModuleCoordinator("Prof. Dr. Bernhard Mößner");
             module2.setLecturers("Frau Gisela Filip");
@@ -94,6 +102,21 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             modules.add(module2);
 
             moduleJpaRepository.saveAll(modules);
+        }
+    }
+
+    @SuppressWarnings("checkstyle:magicnumber")
+    private void createAreaOfStudies() {
+        List<AreaOfStudies> areaOfStudies = areaOfStudiesJpaRepository.findAll();
+        if (areaOfStudies.isEmpty()) {
+            AreaOfStudies aos1 = new AreaOfStudies();
+            aos1.setName("Informatik");
+            aos1.setColorRGB("253,235,9");
+            areaOfStudiesJpaRepository.save(aos1);
+            AreaOfStudies aos2 = new AreaOfStudies();
+            aos2.setName("BWL");
+            aos2.setColorRGB("255,65,60");
+            areaOfStudiesJpaRepository.save(aos2);
         }
     }
 

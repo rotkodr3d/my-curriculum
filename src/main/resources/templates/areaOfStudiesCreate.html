@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{this :: .custom-script})">
+    <title th:text="#{areaOfStudiesCreate.title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <script class="custom-script" src="../static/js/areaOfStudiesCreate.js" th:src="@{/js/areaOfStudiesCreate.js}"></script>
+    <script class="custom-script" th:inline="javascript">
+        var existingAreaOfStudiesList = /*[[${existingAreaOfStudiesList}]]*/ [];
+        var areaOfStudies = /*[[${areaOfStudies}]]*/ {};
+        console.log(existingAreaOfStudiesList);
+    </script>
+</head>
+<body>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container">
+		<h1 data-th-text="#{areaOfStudiesCreate.title}" /></h1>
+		<hr class="pb-5">
+		<div class="col-md-8">
+			<form id="areaOfStudiesForm" th:action="@{/areaOfStudies/create}" th:object="${areaOfStudies}"
+				method="POST">
+				<div class="form-group row mb-4">
+					<label class="col" th:text="#{areaOfStudies.name}"></label>
+					<div class="col">
+						<input id="nameInput" class="form-control" type="text" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? is-invalid : ''"/>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+					</div>
+				</div>
+                <div class="form-group row mb-4">
+                    <label class="col" th:text="#{areaOfStudies.color}"></label>
+                    <div class="col">
+                        <input id="colorInput" class="form-control" type="color" th:field="*{color}" th:classappend="${#fields.hasErrors('color')} ? is-invalid : ''"/>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
+                    </div>
+                </div>
+                <div class="form-group row mb-4">
+                    <div class="col">
+                        <button class="btn btn-success float-right" th:text="#{general.create}" type="submit"></button>
+                    </div>
+                </div>
+			</form>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer ::footer"></footer>
+</body>
+</html>
