@@ -46,8 +46,15 @@
                         <div class="col-md-8">
                             <input class="form-control" type="text" id="stub_title" required/>
                         </div>
+                    </div> 
+                    <div class="form-group row">
+                        <label class="col-md-4" th:text="#{module.areaOfStudies}">Area of studies</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="areaOfStudies" required>
+                                <option th:each="option : ${areaOfStudiesMap}" th:value="${option.key}" th:text="${option.value.name}"></option>
+                            </select>
+                        </div>
                     </div>
-
                     <div class="form-group row">
                         <label class="col-md-4" th:text="#{module.lecturers}">Lecturers</label>
                         <div class="col-md-8">

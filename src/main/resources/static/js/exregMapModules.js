@@ -231,6 +231,7 @@ function createStub() {
         var stub = {
             code: $('#stub_code').val(),
             title: $('#stub_title').val(),
+            areaOfStudies: areaOfStudiesMap[$('#areaOfStudies').val().replace("#","")],
             lecturers: $('#stub_lecturers').val(),
             stubId: nextStubId
         };
@@ -254,8 +255,15 @@ function createStub() {
  * Creates the card for the new stub.
  */
 function addStub(stub) {
+//    var areaOfStudiesColor;
+//    areaOfStudiesList.forEach(function(areaOfStudies) {
+//        if (areaOfStudies.id == stub.areaOfStudies) {
+//            areaOfStudiesColor = areaOfStudies.colorRGB;
+//        }
+//    });
     $('<div></div>', {
-        "class": "card bg-primary text-white module",
+        "class": "card module",
+        "style": "background-color:rgb(" + areaOfStudiesMap[stub.areaOfStudies.id].colorRGB + ")",
         id: "modulelist_stub" + stub.stubId,
         "data-stub-id": stub.stubId,
         draggable: true,

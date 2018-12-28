@@ -41,18 +41,16 @@ public class ModuleController {
     }
 
     @PostMapping("/module/create")
-    public String postModuleCreate(@Valid @ModelAttribute Module module, BindingResult bindingResult) {
+    public String postModuleCreate(Model model, @Valid @ModelAttribute Module module, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-
             // validation failed, therefore stay on the page
+            List<AreaOfStudies> areaOfStudiesList = areaOfStudiesJpaRepository.findAll();
+            model.addAttribute("areaOfStudies", areaOfStudiesList);
             return "moduleCreate";
-
         } else {
-
             // Saving the form values to database
             moduleJpaRepository.save(module);
-
             return "redirect:/module/list";
         }
     }

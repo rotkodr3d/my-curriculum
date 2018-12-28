@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +28,14 @@ public class AreaOfStudiesController {
     @Autowired
     AreaOfStudiesValidator colorValidator;
 
-    @GetMapping("/areaOfStudies/list")
+    @GetMapping("/areaofstudies/list")
     public String getAreaOfStudiesList(Model model) {
         List<AreaOfStudies> areaOfStudiesList = areaOfStudiesJpaRepository.findAll();
         model.addAttribute("areaOfStudies", areaOfStudiesList);
         return "areaOfStudiesList";
     }
 
-    @GetMapping("/areaOfStudies/create")
+    @GetMapping("/areaofstudies/create")
     public String getAreaOfStudiesCreate(Model model) {
         List<AreaOfStudies> existingAreaOfStudiesList = areaOfStudiesJpaRepository.findAll();
         model.addAttribute("areaOfStudies", new AreaOfStudies());
@@ -46,10 +43,9 @@ public class AreaOfStudiesController {
         return "areaOfStudiesCreate";
     }
 
-    @PostMapping("/areaOfStudies/create")
+    @PostMapping("/areaofstudies/create")
     public String postAreaOfStudiesCreate(@Valid @ModelAttribute AreaOfStudies areaOfStudies,
             BindingResult bindingResult) {
-        // remove leading/trailing white spaces before validation
         areaOfStudies.setName(areaOfStudies.getName());
         colorValidator.validate(areaOfStudies, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -59,9 +55,9 @@ public class AreaOfStudiesController {
         // validation has been successful save areaOfStudies
         areaOfStudies.setColorRGB(intToRGB(areaOfStudies.getColor()));
         areaOfStudiesJpaRepository.save(areaOfStudies);
-        return "redirect:/areaOfStudies/list";
+        return "redirect:/areaofstudies/list";
     }
-    
+
     /**
      * Translates the color back to RGB representation and returns it as a string.
      *

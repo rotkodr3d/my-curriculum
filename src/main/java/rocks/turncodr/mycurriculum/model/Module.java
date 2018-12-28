@@ -1,6 +1,7 @@
 package rocks.turncodr.mycurriculum.model;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import javax.persistence.*;
 
@@ -72,6 +73,7 @@ public class Module {
      */
     private int semester;
 
+    @NotNull
     @ManyToOne
     private AreaOfStudies areaOfStudies;
 

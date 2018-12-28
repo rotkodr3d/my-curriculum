@@ -9,15 +9,21 @@
     <h1 th:text="#{areaOfStudiesList.title}"></h1>
     <div>
         <div class="row">
-            <h4 class="col-md-3" th:text="#{areaOfStudies.name}"></h4>
-            <h4 class="col-md-3" th:text="#{areaOfStudies.color}"></h4>
-            <h4 class="col-md-3" th:text="#{areaOfStudiesList.rgb}"></h4>    
+            <h4 class="col-md-4" th:text="#{areaOfStudies.name}"></h4>
+            <h4 class="col-md-4 text-center" th:text="#{areaOfStudies.color}"></h4>
+            <h4 class="col-md-4 text-center" th:text="#{areaOfStudiesList.rgb}"></h4>    
         </div>
         <div class="form-group form-row border p-1"
              th:each="aos : ${areaOfStudies}">
-            <div class="col-md-3" th:text="${aos.name}"></div>
-            <div class="col-md-3" th:style="'background-color:rgb('+${aos.colorRGB}+'); border:3px solid rgb(0, 0, 0, .5); border-radius: 3px; background-clip: padding-box;'"></div>
-            <div class="col-md-3" th:text="${aos.colorRGB}"></div>
+            <div class="col-md-4">
+                <div class="py-2" th:text="${aos.name}"></div>
+            </div>
+            <div class="col-md-4" th:style="'height:calc(2.25rem + 2px); padding: .375rem .75rem; border:1px solid #ced4da; border-radius: 0.25rem; background-clip: padding-box;'">
+                <div th:style="'background-color:rgb('+${aos.colorRGB}+'); height: 100%; border:1px solid #495057;'"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="py-2 text-center" th:text="${aos.colorRGB}"></div>
+            </div>
         </div>
     </div>
 </div>

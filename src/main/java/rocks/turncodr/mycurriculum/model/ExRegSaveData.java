@@ -16,6 +16,8 @@ public class ExRegSaveData {
 
     private List<Module> modulesToBeMapped;
 
+    private AreaOfStudies areaOfStudies;
+
     public ExReg getExReg() {
         return exReg;
     }
@@ -38,5 +40,13 @@ public class ExRegSaveData {
 
     public void setModulesToBeMapped(List<Module> modulesToBeMapped) {
         this.modulesToBeMapped = modulesToBeMapped;
+    }
+
+    public AreaOfStudies getAreaOfStudies() {
+        return areaOfStudies;
+    }
+
+    public void setAreaOfStudies(AreaOfStudies areaOfStudies) {
+        this.areaOfStudies = areaOfStudies;
     }
 }
