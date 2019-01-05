@@ -33,6 +33,7 @@ public class PdfGeneratorUtil {
         }
         
           String processedHtml = templateEngine.process(templateName, context);
+          System.out.println(processedHtml);
           ByteArrayOutputStream os = null;
             try {
                 os = new ByteArrayOutputStream();

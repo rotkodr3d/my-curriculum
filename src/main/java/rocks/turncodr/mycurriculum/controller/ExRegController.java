@@ -1,6 +1,7 @@
 package rocks.turncodr.mycurriculum.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import rocks.turncodr.mycurriculum.model.Syllabus;
 import rocks.turncodr.mycurriculum.model.Syllabus.Semester;
 import rocks.turncodr.mycurriculum.services.ExRegJpaRepository;
 import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
+import rocks.turncodr.mycurriculum.services.PDFConfigManager;
 import rocks.turncodr.mycurriculum.services.PdfGeneratorUtil;
 
 import java.util.ArrayList;
@@ -44,6 +46,9 @@ public class ExRegController {
     @Autowired
     private PdfGeneratorUtil pdfGeneratorUtil;
 
+    @Autowired
+    private PDFConfigManager pdfConfigManager;
+    
     @GetMapping("/exreg/create")
     public String getExRegCreate(Model model) {
         // fetching not mapped modules in a moduleList by selecting only modules, where
@@ -64,7 +69,7 @@ public class ExRegController {
         //find exreg for the given id
         Optional<ExReg> exregResult = exRegJpaRepository.findById(id);
         if (exregResult.isPresent()) {
-            Map<String,?> exregData = getAndSetExregData(exregResult);
+            Map<String,Object> exregData = getAndSetExregData(exregResult);
             for(Entry<String, ?> entry : exregData.entrySet())
                 model.addAttribute(entry.getKey(),entry.getValue());
         } else {
@@ -78,7 +83,9 @@ public class ExRegController {
     public ResponseEntity<?> getExRegHandbookPdf(@RequestParam("id") Integer id, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
         Optional<ExReg> exregResult = exRegJpaRepository.findById(id);
         if (exregResult.isPresent()) {
-            Map<String,?> data = getAndSetExregData(exregResult);
+            Map<String,Object> data = getAndSetExregData(exregResult);
+            HashMap<String,String> textStyles = pdfConfigManager.getAllFonts();
+            data.put("textStyles", textStyles);
             return pdfGeneratorUtil.createPdfDownload("exregSyllabusPDF", data, request, response);
         } else {
             //the given id has no corresponding exreg --> display error message

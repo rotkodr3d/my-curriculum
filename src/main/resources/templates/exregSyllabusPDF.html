@@ -7,10 +7,10 @@
 <div class="container">
     <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="#{${error}}"></div>
     <th:block th:if="${error == null}">
-        <h1 th:text="#{exregSyllabus.syllabus}"></h1>
+        <h1 th:text="#{exregSyllabus.syllabus}" th:style="|font-family: ${textStyles.get('headingsFont')}; color: ${textStyles.get('headingsColor')};|"></h1>
 
         <!-- list of modules by semester -->
-        <div>
+        <div style="page-break-after: always;">
             <h2 th:text="#{exregSyllabus.moduleList}"></h2>
             <div class="table-responsive">
             <table class="table table-sm">
