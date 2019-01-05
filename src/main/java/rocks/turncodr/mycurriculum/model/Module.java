@@ -16,7 +16,7 @@ import java.util.Comparator;
 @Entity
 public class Module {
 
-    public static final Comparator<Module> ALPHABETICAL_ORDER = new Comparator<Module>() {
+    public static final Comparator<Module> CODE_ALPHABETICAL_ORDER = new Comparator<Module>() {
         public int compare(Module module1, Module module2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(module1.getCode(), module2.getCode());
             if (res == 0) {

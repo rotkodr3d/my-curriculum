@@ -1,7 +1,6 @@
 package rocks.turncodr.mycurriculum.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +17,8 @@ import rocks.turncodr.mycurriculum.services.ExRegJpaRepository;
 import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
 import rocks.turncodr.mycurriculum.services.PdfGeneratorUtil;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,9 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Controller for the Examination Regulations sites.
@@ -40,7 +38,7 @@ public class ExRegController {
 
     @Autowired
     private ExRegJpaRepository exRegJpaRepository;
-    
+
     @Autowired
     private PdfGeneratorUtil pdfGeneratorUtil;
 
@@ -54,39 +52,44 @@ public class ExRegController {
     }
 
     @GetMapping("/exreg/syllabus")
-    public String getExRegHandbook(@RequestParam("id") Integer id, Model model) {
+    public String getExRegHandbook(@RequestParam(value = "id", required = false, defaultValue = "0") String urlId, Model model) {
+        Integer id;
+        try {
+            id = Integer.parseInt(urlId);
+        } catch (NumberFormatException e) {
+            id = 0;
+        }
         //find exreg for the given id
         Optional<ExReg> exregResult = exRegJpaRepository.findById(id);
         if (exregResult.isPresent()) {
-            Map<String,?> exregData = getAndSetExregData(exregResult);
-            for(Entry<String, ?> entry : exregData.entrySet())
-                model.addAttribute(entry.getKey(),entry.getValue());
+            Map<String, ?> exregData = getAndSetExregData(exregResult.get());
+            for (Entry<String, ?> entry : exregData.entrySet()) {
+                model.addAttribute(entry.getKey(), entry.getValue());
+            }
         } else {
             //the given id has no corresponding exreg --> display error message
             model.addAttribute("error", "exregSyllabus.exregDoesntExist");
         }
         return "exregSyllabus";
     }
-    
-    @RequestMapping(value = "/exreg/syllabus/pdf" , method = RequestMethod.GET) //produces="application/pdf"
+
+    @RequestMapping(value = "/exreg/syllabus/pdf", method = RequestMethod.GET) //produces="application/pdf"
     public ResponseEntity<?> getExRegHandbookPdf(@RequestParam("id") Integer id, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
         Optional<ExReg> exregResult = exRegJpaRepository.findById(id);
         if (exregResult.isPresent()) {
-            Map<String,?> data = getAndSetExregData(exregResult);
+            Map<String, ?> data = getAndSetExregData(exregResult.get());
             return pdfGeneratorUtil.createPdfDownload("exregSyllabusPDF", data, request, response);
         } else {
             //the given id has no corresponding exreg --> display error message
-            return new ResponseEntity<String>("ERROR 404: THE REQUESTED RESOURCE DOESN'T EXIST!",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("ERROR 404: THE REQUESTED RESOURCE DOESN'T EXIST!", HttpStatus.NOT_FOUND);
         }
     }
+
     /**
-     * 
      * Returns a Map which contains all the data for an exreg.
-     * 
      */
-    private Map<String,Object> getAndSetExregData(Optional<ExReg> exregResult) {
-        Map<String,Object> exregData= new HashMap<>(); 
-        ExReg exreg = exregResult.get();
+    private Map<String, Object> getAndSetExregData(ExReg exreg) {
+        Map<String, Object> exregData = new HashMap<>();
 
         //find modules for the given exreg
         List<Module> moduleList = moduleJpaRepository.findByExReg(exreg);
@@ -110,7 +113,7 @@ public class ExRegController {
 
         for (Integer key : keys) {
             List<Module> modules = semesterMap.get(key);
-            Collections.sort(modules, Module.ALPHABETICAL_ORDER);
+            Collections.sort(modules, Module.CODE_ALPHABETICAL_ORDER);
             Semester semester = new Semester(modules, key);
             syllabus.getSemesters().add(semester);
         }
