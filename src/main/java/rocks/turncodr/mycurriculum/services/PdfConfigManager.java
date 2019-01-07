@@ -1,30 +1,32 @@
 package rocks.turncodr.mycurriculum.services;
 
+import org.springframework.stereotype.Component;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 
-import org.springframework.stereotype.Component;
-
+/**
+ * Manages settings concerning the syllabus pdf generation.
+ */
 @Component
-public class PDFConfigManager {
+public class PdfConfigManager {
 
-    private final String configName = "pdfsytle.properties";
+    private final String configName = "pdfstyle.properties";
     private Properties properties;
-    
-    public PDFConfigManager() {
+
+    public PdfConfigManager() {
         File file = new File(configName);
-        if(!file.exists()) {
-            createStandardConfigFile(file); 
+        if (!file.exists()) {
+            createStandardConfigFile(file);
         } else {
             loadConfigFile(file);
         }
     }
-    
+
     private void createStandardConfigFile(File file) {
         try {
             properties = new Properties();
@@ -37,7 +39,7 @@ public class PDFConfigManager {
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }    
+        }
     }
 
     private void loadConfigFile(File file) {
@@ -50,13 +52,12 @@ public class PDFConfigManager {
             e.printStackTrace();
         }
     }
-    
+
     /**
-     * 
      * @return All fonts saved in the config file.
      */
-    public HashMap<String,String> getAllFonts() {
-        HashMap<String,String> propertiesMap = new HashMap<>();
+    public HashMap<String, String> getAllFonts() {
+        HashMap<String, String> propertiesMap = new HashMap<>();
         for (String name : properties.stringPropertyNames()) {
             propertiesMap.put(name, properties.getProperty(name));
         }
