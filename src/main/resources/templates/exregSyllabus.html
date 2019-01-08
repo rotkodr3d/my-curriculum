@@ -8,13 +8,12 @@
 <div class="container">
     <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="#{${error}}"></div>
     <th:block th:if="${error == null}">
-        <div class="row col-md-12">
-            <div class="col-md-4 px-0">
+        <div class="d-flex flex-row">
+            <div class="flex-grow-1">
                 <h1 th:text="#{exregSyllabus.syllabus}"></h1>
             </div>
-            <div class="col-md-6 py-2 px-0">
-                <button class="btn btn-primary" th:text=#{general.pdf} th:onclick="|window.open('@{/exreg/syllabus/pdf(id=${exreg.id})}')|"></button>
-                <button class="btn btn-primary">Overview</button>
+            <div>
+                <a class="btn btn-primary" th:text=#{general.pdf} th:href="@{/exreg/syllabus/pdf(id=${exreg.id})}|"></a>
             </div>
         </div>
         <!-- list of modules by semester -->
@@ -24,7 +23,7 @@
                 <table class="table table-sm">
 
                     <thead>
-                    <tr class="table-primary">
+                    <tr>
                         <th th:text="#{exregSyllabus.semester}"></th>
                         <th th:text="#{exregSyllabus.module}"></th>
                         <th th:text="#{exregSyllabus.ects}"></th>
@@ -33,7 +32,7 @@
 
                     <tbody>
                     <th:block th:each="semester : ${syllabus.semesters}">
-                        <tr class="table-primary">
+                        <tr>
                             <td th:text="#{general.semester} + ' ' + ${semester.number}" colspan="2">Semester 1</td>
                             <td th:text="${semester.credits}">30</td>
                         </tr>
@@ -49,7 +48,7 @@
                     </tbody>
 
                     <tfoot>
-                    <tr class="table-primary">
+                    <tr>
                         <td th:text="#{exregSyllabus.totalCredits}" colspan="2"></td>
                         <td th:text="${syllabus.totalCredits}"></td>
                     </tr>
