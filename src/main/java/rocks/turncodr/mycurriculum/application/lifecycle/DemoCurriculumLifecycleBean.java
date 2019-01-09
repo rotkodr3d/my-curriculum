@@ -444,7 +444,8 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         wib.setName("Wirtschaftsinformatik");
         wib.setExpiresOn(new Date(1538344800000l));
         wib.setNumberOfSemesters(6);
-        exregJpaRepository.save(wib);
+        wib = exregJpaRepository.save(wib);
+        System.out.println(wib.getId());
     }
     
     @SuppressWarnings("checkstyle:magicnumber")

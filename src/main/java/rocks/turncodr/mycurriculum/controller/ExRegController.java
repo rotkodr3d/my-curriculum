@@ -98,5 +98,4 @@ public class ExRegController {
         return "exregSyllabus";
 
     }
-
 }
