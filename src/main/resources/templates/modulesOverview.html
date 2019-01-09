@@ -11,11 +11,11 @@
 </head>
 <body>
 	<header th:replace="fragments/header :: header"></header>
-    <div class="container-fluid">
+    <div class="container" id="content">
 	<table class="table table-md">
 		<tbody>
 			<tr th:each="i : ${#numbers.sequence(exRegSemester,1)}">
-				<td th:text="${i + '. Semester'}" class="col-md-1"></td>
+				<td th:text="${i}" class="col-md-1"></td>
 				<td th:each="module : ${exRegModules}"
 					th:if="${module.semester} == ${i}" th:colspan="${module.credits}" class="col-md-2">
 					<div th:id="${module.id}" class="card module" style="background-color: rgb(25, 125, 255)" onclick="showModuleDetails(event);">
