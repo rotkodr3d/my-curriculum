@@ -1,19 +1,19 @@
 package rocks.turncodr.mycurriculum.application.lifecycle;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Component;
+import rocks.turncodr.mycurriculum.model.Module;
+import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
 import rocks.turncodr.mycurriculum.model.AreaOfStudies;
 import rocks.turncodr.mycurriculum.model.Curriculum;
-import rocks.turncodr.mycurriculum.model.ExReg;
-import rocks.turncodr.mycurriculum.model.Module;
 import rocks.turncodr.mycurriculum.services.AreaOfStudiesJpaRepository;
 import rocks.turncodr.mycurriculum.services.CurriculumJpaRepository;
 import rocks.turncodr.mycurriculum.services.ExRegJpaRepository;
-import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
-
-import java.sql.Date;
-import java.util.List;
+import rocks.turncodr.mycurriculum.model.ExReg;
 
 /**
  * Lifecycle bean that creates demo curricula.
@@ -31,10 +31,10 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
     private CurriculumJpaRepository curriculumService;
 
     @Autowired
-    private ExRegJpaRepository exregJpaRepository;
+    private AreaOfStudiesJpaRepository areaOfStudiesJpaRepository;
 
     @Autowired
-    private AreaOfStudiesJpaRepository areaOfStudiesJpaRepository;
+    private ExRegJpaRepository exregJpaRepository;
 
     @Override
     public void start() {
@@ -54,8 +54,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         wib.setName("Wirtschaftsinformatik Bachelor");
         wib.setValidFrom(Date.valueOf("2018-01-01"));
         wib = exregJpaRepository.save(wib);
-
-
+        System.out.println(wib.getId());
         this.createSemester1Wib(wib);
         this.createSemester2Wib(wib);
     }
@@ -104,10 +103,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         fortgeschritteneProgrammierung.setContents("Im Modul wird die Entwicklung von Desktop-Applikationen mit einer objektorientierten Sprache thematisiert.");
         fortgeschritteneProgrammierung.setTeachingMethodology("Das Modul besteht aus einer Vorlesung in seminaristischem Stil mit Tafelanschrieb.");
         fortgeschritteneProgrammierung.setReadingList("Epple, Anton (2015): JavaFX 8 - Grundlagen und fortgeschrittene Techniken. dpunkt.verlag");
-
-        AreaOfStudies informatik = areaOfStudiesJpaRepository.findByName("Informatik");
-        fortgeschritteneProgrammierung.setAreaOfStudies(informatik);
-
+        fortgeschritteneProgrammierung.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Informatik"));
         return fortgeschritteneProgrammierung;
     }
 
@@ -128,10 +124,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         computernetzwerke.setContents("Das Internet dominiert weltweit die Art und Weise wie wir kommunizieren, Informationen konsumieren und produzieren und Geschäftsprozesse abwickeln.");
         computernetzwerke.setTeachingMethodology("PDF der Folien aus der Vorlesung. Weiteres Material wird während der Vorlesung bekannt gegeben.");
         computernetzwerke.setReadingList("J. F. Kurose, K. W. Ross: Computernetze; Pearson Studium 2014");
-
-        AreaOfStudies informatik = areaOfStudiesJpaRepository.findByName("Informatik");
-        computernetzwerke.setAreaOfStudies(informatik);
-
+        computernetzwerke.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Informatik"));
         return computernetzwerke;
     }
 
@@ -152,10 +145,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         algorithmen.setContents("Einführung (Algorithmen und Datenstrukturen, Entwurfsmethoden, Komplexität bzw. asymptotische Analyse)");
         algorithmen.setTeachingMethodology("Das Modul besteht aus einer Vorlesung in seminaristischem Stil mit Tafelanschrieb.");
         algorithmen.setReadingList("M.T.Goodrich; R.Tamassia, M.H.Goldwasser: Data Structures and Algorithms in Java");
-
-        AreaOfStudies informatik = areaOfStudiesJpaRepository.findByName("Informatik");
-        algorithmen.setAreaOfStudies(informatik);
-
+        algorithmen.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Informatik"));
         return algorithmen;
     }
 
@@ -176,10 +166,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         wirtschaftsmathematik.setContents("Wirtschaftsmathematik");
         wirtschaftsmathematik.setTeachingMethodology("Vermittlung der theoretischen Grundlagen mittels Beamer-Präsentation, ergänzt durch Tafelanschriebe. Besprechung von Lösungen der Übungsaufgaben.");
         wirtschaftsmathematik.setReadingList("Fahrmeir / Heumann / Künstler / Pigeot / Tutz (2016): Statistik – Der Weg zur Datenanalyse. 8. Auflage. Wiesbaden: SpringerSpektrum.");
-
-        AreaOfStudies mathe = areaOfStudiesJpaRepository.findByName("Mathematik");
-        wirtschaftsmathematik.setAreaOfStudies(mathe);
-
+        wirtschaftsmathematik.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Mathematik"));
         return wirtschaftsmathematik;
     }
 
@@ -200,10 +187,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         digitalMarketing.setContents("Grundlagen zu Digital Marketing und eCommerce, Kernbegriffe, historische Entwicklung.");
         digitalMarketing.setTeachingMethodology("Vorlesung, Übungsaufgaben, Fallstudien, Skript mit PPT-Folien, beispielhafte Publikationen, Hausarbeiten, Präsentationen, Projektarbeiten.");
         digitalMarketing.setReadingList("Chaffey, D., Smith, P. R., & Smith, P. R. (2012). eMarketing eXcellence: Planning and optimizing your digital marketing. Routledge.");
-
-        AreaOfStudies bwl = areaOfStudiesJpaRepository.findByName("BWL");
-        digitalMarketing.setAreaOfStudies(bwl);
-
+        digitalMarketing.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("BWL"));
         return digitalMarketing;
     }
 
@@ -224,10 +208,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         rechnungswesen.setContents("Grundlagen des betrieblichen Rechnungswesens");
         rechnungswesen.setTeachingMethodology("Vermittlung der theoretischen Grundlagen mittels Beamer-Präsentation, ergänzt durch Tafelanschriebe. Besprechung von Lösungen der Übungsaufgaben.");
         rechnungswesen.setReadingList("Coenenberg/Haller/Mattner/Schultze: Einführung in das Rechnungswesen - Grundlagen der Buchführung und Bilanzierung. 6. Auflage. Stuttgart: Schäffer-Poeschel");
-
-        AreaOfStudies bwl = areaOfStudiesJpaRepository.findByName("BWL");
-        rechnungswesen.setAreaOfStudies(bwl);
-
+        rechnungswesen.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("BWL"));
         return rechnungswesen;
     }
 
@@ -274,10 +255,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         praktikumProgrammieren.setContents("Klassen, Objekte, Datenfelder, Konstruktoren, Methoden");
         praktikumProgrammieren.setTeachingMethodology("Betreute Rechnerübungen, Folien, Tafel");
         praktikumProgrammieren.setReadingList("David J. Barnes und Michael Kölling (2017): Java  lernen  mit  BlueJ:  Objects  first - Eine Einführung in Java. 6. Auflage. Pearson Studium.");
-
-        AreaOfStudies informatik = areaOfStudiesJpaRepository.findByName("Informatik");
-        praktikumProgrammieren.setAreaOfStudies(informatik);
-
+        praktikumProgrammieren.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Informatik"));
         return praktikumProgrammieren;
     }
 
@@ -304,10 +282,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         grundlagenInformatik.setContents("Darstellung und Interpretation von Information");
         grundlagenInformatik.setTeachingMethodology("Folien, Tafel, Praktische Demonstrationen und Übungen");
         grundlagenInformatik.setReadingList("Helmut Herold, Bruno Lurz und Jürgen Wohlrab (2012): Grundlagen  der  Informatik.  2. Auflage. Pearson Studium.");
-
-        AreaOfStudies informatik = areaOfStudiesJpaRepository.findByName("Informatik");
-        grundlagenInformatik.setAreaOfStudies(informatik);
-
+        grundlagenInformatik.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Informatik"));
         return grundlagenInformatik;
     }
 
@@ -328,10 +303,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         diskreteMathematik.setContents("Im Bereich der Logik werden Aussagenlogik, aussagenlogische Verknüpfungen, Wahrheitstabellen, semantische Äquivalenz von Aussagen, Prädikatenlogik, Quantoren und Negation von Quantoren behandelt.");
         diskreteMathematik.setTeachingMethodology("Das Modul besteht aus einer zweistündigen Vorlesung mit einem zweistündigen Praktikum.");
         diskreteMathematik.setReadingList("C. Meinel und M. Mundhenk (2015): Mathematische Grundlagen der Informatik: Mathematisches Denken und Beweisen. Eine Einführung. 6. überarb. Auflage. Wiesbaden: Springer Vieweg.");
-
-        AreaOfStudies mathe = areaOfStudiesJpaRepository.findByName("Mathematik");
-        diskreteMathematik.setAreaOfStudies(mathe);
-
+        diskreteMathematik.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Mathematik"));
         return diskreteMathematik;
     }
 
@@ -352,10 +324,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         statistik.setContents("Es werden die mathematischen Begriffe, Methoden und Instrumente für einen formalen Umgang mit Beobachtungsdaten vermittelt.");
         statistik.setTeachingMethodology("Vorlesung mit begleitenden Übungen sowie seminaristischer Unterricht mit Tafelanschrieb.");
         statistik.setReadingList("Nollau/Partzsch/Storm/Lange: Wahrscheinlichkeitsrechnung und Statistik  in  Beispielen und Aufgaben,  Teubner (1997).");
-
-        AreaOfStudies mathe = areaOfStudiesJpaRepository.findByName("Mathematik");
-        statistik.setAreaOfStudies(mathe);
-
+        statistik.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Mathematik"));
         return statistik;
     }
 
@@ -376,27 +345,24 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         entrepreneurship.setContents("Techniken, Methoden, Werkzeuge und organisatorische Aspekte des Intra-und Entrepreneurships");
         entrepreneurship.setTeachingMethodology("Vorlesung mit begleitenden Übungen");
         entrepreneurship.setReadingList("Marya, A. (2012): Running Lean: Iterate from Plan A to a Plan That Works. 2. Auflage, O'Reilly.");
-
-        AreaOfStudies methoden = areaOfStudiesJpaRepository.findByName("Methoden");
-        entrepreneurship.setAreaOfStudies(methoden);
-
+        entrepreneurship.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Methoden"));
         return entrepreneurship;
     }
 
     private Module createModuleGrundlagenBWL() {
-        Module grundlagenBWL = new Module();
-        grundlagenBWL.setTitle("Grundlagen der Betriebswirtschaftslehre");
-        grundlagenBWL.setCode("WIB11");
-        grundlagenBWL.setSubtitle("");
-        grundlagenBWL.setOfferFrequency("jedes Semester");
-        grundlagenBWL.setModuleCoordinator("Prof. Dr. Josef Schürle");
-        grundlagenBWL.setLecturers("Prof. Dr. Josef Schürle");
-        grundlagenBWL.setTeachingLanguage("Deutsch");
-        grundlagenBWL.setSemester(1);
-        grundlagenBWL.setCredits(5);
-        grundlagenBWL.setPrerequisites("Keine");
-        grundlagenBWL.setRecommendedPrerequisites("Keine");
-        grundlagenBWL.setLearningOutcomes(
+        Module bwl = new Module();
+        bwl.setTitle("Grundlagen der Betriebswirtschaftslehre");
+        bwl.setCode("WIB11");
+        bwl.setSubtitle("");
+        bwl.setOfferFrequency("jedes Semester");
+        bwl.setModuleCoordinator("Prof. Dr. Josef Schürle");
+        bwl.setLecturers("Prof. Dr. Josef Schürle");
+        bwl.setTeachingLanguage("Deutsch");
+        bwl.setSemester(1);
+        bwl.setCredits(5);
+        bwl.setPrerequisites("Keine");
+        bwl.setRecommendedPrerequisites("Keine");
+        bwl.setLearningOutcomes(
                 "Die Studierenden kennen grundlegende Begriffe aus der Betriebswirtschaftslehre und verstehen \n"
                         + "ihre  Bedeutung.  Die  Studierenden  verstehen  betriebswirtschaftliche  Zielkonzeptionen  sowie \n"
                         + "insbesondere die wertorientierte Unternehmensführung als zentralen Erfolgsmaßstab. Die \n"
@@ -416,28 +382,25 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
                         + "Sie verstehen die \ngrundlegenden Konzepte zur Beurteilung wirtschaftlichen Erfolgs sowie den \n"
                         + "Zusammengang zwischen Ergebnis und Risikoverteilung.Die Studierenden sind in der Lage, \n"
                         + "dieses Wissen auf ihr Handeln zu überragen.");
-        grundlagenBWL.setContents("Grundbegriffe und Erfolgsmaßstäbe der Betriebswirtschaftslehre\n "
+        bwl.setContents("Grundbegriffe und Erfolgsmaßstäbe der Betriebswirtschaftslehre\n "
                 + "Betriebswirtschaftliche Zielkonzeption\n "
                 + "Grundlagen der wertorientierten Unternehmensführung\n "
                 + "Rechtsformen und deren betriebswirtschaftliche Konsequenzen \n "
                 + "(insb. Unternehmensführung, Gewinnverteilung, Haftung, Finanzierung und Steuern)\n "
                 + "Unternehmenszusammenschlüsse\n "
                 + "Ausgewählte Aspekte der Unternehmensführung (Organisation, Personal)");
-        grundlagenBWL.setTeachingMethodology(
+        bwl.setTeachingMethodology(
                 "Vermittlung der theoretischen Grundlagen mittels Beamer-Präsentation, ergänzt durch \n "
                         + "Tafelanschriebe. Gemeinsame Besprechung und Analyse aktueller wirtschaftlicher Ereignisse \n "
                         + "anhand von Presseartikeln. Studierende erarbeiten Lösungen zu Übungsaufgaben in \n "
                         + "Gruppenarbeit und präsentieren ihre Ergebnisse im Plenum");
-        grundlagenBWL.setReadingList("Jung (2013): Allgemeine Betriebswirtschaftslehre. 13. Auflage. Berlin: De Gruyter.\n"
+        bwl.setReadingList("Jung (2013): Allgemeine Betriebswirtschaftslehre. 13. Auflage. Berlin: De Gruyter.\n"
                 + "Wöhe (2016): Einführung in die Allgemeine Betriebswirtschaftslehre. 26. Auflage. München: Vahlen\n"
                 + "Wöhe / Kaiser / Döring (2016): Übungsbuch zur allgemeinen Betriebswirtschaftslehre. 15. Auflage. München: Vahlen");
-
-        AreaOfStudies bwl = areaOfStudiesJpaRepository.findByName("BWL");
-        grundlagenBWL.setAreaOfStudies(bwl);
-
-        return grundlagenBWL;
+        bwl.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("BWL"));
+        return bwl;
     }
-    
+
     @SuppressWarnings("checkstyle:magicnumber")
     private void createExreg() {
         ExReg wib = new ExReg();
@@ -447,7 +410,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         wib = exregJpaRepository.save(wib);
         System.out.println(wib.getId());
     }
-    
+
     @SuppressWarnings("checkstyle:magicnumber")
     private void createCurriculum() {
         List<Curriculum> curriculum = curriculumService.findAll();
@@ -466,9 +429,10 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
         }
     }
 
-    /**
-     * Creates example modules and saves them to the database.
+    /*
+     *Creates example modules and saves them to the database.
      */
+
     @SuppressWarnings("checkstyle:magicnumber")
     private void createModules() {
         List<Module> modules = moduleJpaRepository.findAll();
@@ -490,6 +454,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module1.setContents("Entwicklung objektorientierter Programme");
             module1.setTeachingMethodology("Vorlesung im seminaristischen [sic!] Stil.");
             module1.setReadingList("Sprechen Sie Java?");
+            module1.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Informatik"));
             modules.add(module1);
 
             Module module2 = new Module();
@@ -508,6 +473,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module2.setContents("Kenntnis der grundlegenden Konzepte");
             module2.setTeachingMethodology("Vorlesung mit begleitendem Praktikum.");
             module2.setReadingList("Mathematik für Wirtschaftswissenschaftler");
+            module2.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Mathematik"));
             modules.add(module2);
             
             Module module3 = new Module();
@@ -530,6 +496,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module3.setTeachingMethodology("Vorlesung mit begleitendem Praktikum.");
             module3.setReadingList("Datenbanksysteme für Informatiker");
             module3.setExReg(exregJpaRepository.findAll().get(0));
+            module3.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Informatik"));
             modules.add(module3);
             
             Module module4 = new Module();
@@ -549,8 +516,9 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module4.setTeachingMethodology("Vorlesung mit begleitendem Praktikum.");
             module4.setReadingList("HTML 5, PHP für Dummies, JavaScript für Dummies.");
             module4.setExReg(exregJpaRepository.findAll().get(0));
+            module4.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Informatik"));
             modules.add(module4);
-            
+
             moduleJpaRepository.saveAll(modules);
         }
     }
@@ -559,25 +527,22 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
     private void createAreaOfStudies() {
         List<AreaOfStudies> areaOfStudies = areaOfStudiesJpaRepository.findAll();
         if (areaOfStudies.isEmpty()) {
-            AreaOfStudies informatik = new AreaOfStudies();
-            informatik.setName("Informatik");
-            informatik.setColorRGB("253,235,9");
-            areaOfStudiesJpaRepository.save(informatik);
-
-            AreaOfStudies bwl = new AreaOfStudies();
-            bwl.setName("BWL");
-            bwl.setColorRGB("255,65,60");
-            areaOfStudiesJpaRepository.save(bwl);
-
-            AreaOfStudies mathe = new AreaOfStudies();
-            mathe.setName("Mathematik");
-            mathe.setColorRGB("0,176,240");
-            areaOfStudiesJpaRepository.save(mathe);
-
-            AreaOfStudies methoden = new AreaOfStudies();
-            methoden.setName("Methoden");
-            methoden.setColorRGB("255,197,0");
-            areaOfStudiesJpaRepository.save(methoden);
+            AreaOfStudies aos1 = new AreaOfStudies();
+            aos1.setName("Informatik");
+            aos1.setColorRGB("253,235,9");
+            areaOfStudiesJpaRepository.save(aos1);
+            AreaOfStudies aos2 = new AreaOfStudies();
+            aos2.setName("BWL");
+            aos2.setColorRGB("255,80,80");
+            areaOfStudiesJpaRepository.save(aos2);
+            AreaOfStudies aos3 = new AreaOfStudies();
+            aos3.setName("Mathematik");
+            aos3.setColorRGB("83,141,213");
+            areaOfStudiesJpaRepository.save(aos3);
+            AreaOfStudies aos4 = new AreaOfStudies();
+            aos4.setName("Methoden");
+            aos4.setColorRGB("255,160,0");
+            areaOfStudiesJpaRepository.save(aos4);
         }
     }
 

@@ -16,7 +16,7 @@
 	<div th:if="${error != null}"
 		th:text="#{exregSyllabus.exregDoesntExist}"></div>
 	<div class="container" id="content" th:if="${error == null}">
-		<table class="table table-sm w-100">
+		<table class="table table-sm table-responsive" style="font-size: 100%; word-wrap: break-word; word-break:break-all; hyphens: auto;">
 			<thead>
 				<tr>
 					<th style="width: 6.25%">Sem</th>
@@ -25,9 +25,9 @@
 			</thead>
 			<tfoot>
 				<tr>
-					<td style="width: 6.25%; padding: 5px;">ECTS</td>
+					<td style="width: 6.25%; padding: 0px;">ECTS</td>
 					<td th:each="i : ${#numbers.sequence(1,30)}" th:text="${i}"
-						style="width: 3.125%; padding: 5px;"></td>
+						style="width: 3.125%; padding: 0px;"></td>
 				</tr>
 			</tfoot>
 			<tbody>
@@ -36,7 +36,7 @@
 					<td th:each="module : ${exRegModules}"
 						th:if="${module.semester} == ${i}" th:id="${module.id}"
 						th:colspan="${module.credits}" class="module"
-						style="background-color: rgb(25, 125, 255)"
+						th:style="'background-color: rgb(' + ${module.areaOfStudies.colorRGB} + ')'|"
 						onclick="showModuleDetails(event);">
 						<div th:text="${module.code + '&nbsp' + module.title}" class=""></div>
 					</td>
