@@ -16,7 +16,7 @@
 	<div th:if="${error != null}"
 		th:text="#{exregSyllabus.exregDoesntExist}"></div>
 	<div class="container" id="content" th:if="${error == null}">
-		<table class="table table-sm table-responsive" style="font-size: 100%; word-wrap: break-word; word-break:break-all; hyphens: auto;">
+		<table class="table-module-overview">
 			<thead>
 				<tr>
 					<th style="width: 6.25%">Sem</th>
@@ -36,9 +36,9 @@
 					<td th:each="module : ${exRegModules}"
 						th:if="${module.semester} == ${i}" th:id="${module.id}"
 						th:colspan="${module.credits}" class="module"
-						th:style="'background-color: rgb(' + ${module.areaOfStudies.colorRGB} + ')'|"
+						th:style="'background-color: rgb(' + ${module.areaOfStudies.colorRGB} + '); width: 3.125%'"
 						onclick="showModuleDetails(event);">
-						<div th:text="${module.code + '&nbsp' + module.title}" class=""></div>
+						<p th:text="${module.code + ' ' + module.title}" class=""></p>
 					</td>
 				</tr>
 			</tbody>

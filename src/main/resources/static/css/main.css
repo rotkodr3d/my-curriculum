@@ -33,3 +33,9 @@ footer .icon-foreground {
 	position: relative;
 	z-index: 1;
 }
+
+.table-module-overview td, .table-module-overview p{
+	hyphens: auto;
+	word-break: break-word;
+	word-wrap: break-word;
+}
