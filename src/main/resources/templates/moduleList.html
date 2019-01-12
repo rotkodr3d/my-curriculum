@@ -39,7 +39,7 @@
             <div class="col-md-5" th:text="${module.title}"></div>
             <div class="col-md-2">
                 <button class="btn btn-info float-right">PDF</button>
-                <button class="btn btn-info float-right mr-1">Edit</button>
+                <a class="btn btn-info float-right mr-1" role="button" th:href="@{/module/edit?id=} + |${module.id}|">Edit</a>
             </div>
         </div>
     </div>

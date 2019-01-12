@@ -15,169 +15,173 @@
 </head>
 <body>
 <div id="content">
-    <h1 th:text="#{moduleCreate.createModuleHeader}">Neues Modul anlegen</h1>
-    <hr class="pb-2"/>
-    <!-- th:object="${module}" sets the module attribute of the model as reference for *{...} expressions in this form -->
-    <form action="#" th:action="@{/module/create}" method="post" th:object="${module}">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a data-toggle="tab" class="nav-link active" role="tab" href="#moduleBasicData"
-                   th:text="#{moduleCreate.tabBasicData}">Kopfdaten</a>
-            </li>
-            <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" role="tab" href="#moduleContents"
-                   th:text="#{moduleCreate.tabContents}">Modulziele</a>
-            </li>
-            <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" role="tab" href="#moduleTeachingMethodology"
-                   th:text="#{moduleCreate.tabTeachingMethodology}">Medienformen</a>
-            </li>
-            <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" role="tab" href="#moduleReadingList"
-                   th:text="#{moduleCreate.tabReadingList}">Literatur</a>
-            </li>
-        </ul>
-        <div class="tab-content container-fluid p-3" id="modulTabs">
-            <div id="moduleBasicData" class="tab-pane fade show active" role="tabpanel">
-                <h2 th:text="#{moduleCreate.tabBasicData}">Kopfdaten</h2>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.code}" for="code">Kürzel</label>
-                    <div class="col-md-4">
-                        <input class="form-control" type="text" th:field="*{code}" id="code"/>
+	<div th:if="${error != null}" class="alert alert-danger"
+    	role="alert" th:text="#{${error}}"></div>
+    <th:block th:if="${error == null}">
+        <h1 th:text="#{moduleCreate.createModuleHeader}">Neues Modul anlegen</h1>
+        <hr class="pb-2"/>
+        <!-- th:object="${module}" sets the module attribute of the model as reference for *{...} expressions in this form -->
+        <form action="#" th:action="${editMode} ? @{/module/edit?id=} + |${module.id}| :  @{/module/create}" method="post" th:object="${module}">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a data-toggle="tab" class="nav-link active" role="tab" href="#moduleBasicData"
+                       th:text="#{moduleCreate.tabBasicData}">Kopfdaten</a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" class="nav-link" role="tab" href="#moduleContents"
+                       th:text="#{moduleCreate.tabContents}">Modulziele</a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" class="nav-link" role="tab" href="#moduleTeachingMethodology"
+                       th:text="#{moduleCreate.tabTeachingMethodology}">Medienformen</a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="tab" class="nav-link" role="tab" href="#moduleReadingList"
+                       th:text="#{moduleCreate.tabReadingList}">Literatur</a>
+                </li>
+            </ul>
+            <div class="tab-content container-fluid p-3" id="modulTabs">
+                <div id="moduleBasicData" class="tab-pane fade show active" role="tabpanel">
+                    <h2 th:text="#{moduleCreate.tabBasicData}">Kopfdaten</h2>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.code}" for="code">Kürzel</label>
+                        <div class="col-md-4">
+                            <input class="form-control" type="text" th:field="*{code}" id="code"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.title}" for="title">Modulname</label>
+                        <div class="col-md-8">
+                            <input class="form-control" th:classappend="${#fields.hasErrors('title')} ? is-invalid : ''"
+                                   type="text" th:field="*{title}" id="title"/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.areaOfStudies}"
+                               for="areaOfStudies"></label>
+                        <div class="col-md-8">
+                            <select class="form-control"
+                                    th:classappend="${#fields.hasErrors('areaOfStudies')} ? is-invalid : ''"
+                                    th:field="*{areaOfStudies}" id="areaOfStudies">
+                                <option value="0"></option>
+                                <option th:each="option : ${areaOfStudies}" th:value="${option.id}"
+                                        th:text="${option.name}"></option>
+                            </select>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('areaOfStudies')}"
+                                 th:errors="*{areaOfStudies}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.subtitle}"
+                               for="subtitle">Untertitel</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" th:field="*{subtitle}" id="subtitle"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.offerFrequency}"
+                               for="offerFrequency">Studiensemester</label>
+                        <div class="col-md-4">
+                            <input class="form-control" type="text" th:field="*{offerFrequency}" id="offerFrequency"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.moduleCoordinator}"
+                               for="moduleCoordinator">Modulverantwortlicher</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" th:field="*{moduleCoordinator}"
+                                   id="moduleCoordinator"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.lecturers}"
+                               for="lecturers">Dozent(in)</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" th:field="*{lecturers}" id="lecturers"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.teachingLanguage}" for="teachingLanguage">Sprache</label>
+                        <div class="col-md-4">
+                            <input class="form-control" type="text" th:field="*{teachingLanguage}"
+                                   id="teachingLanguage"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.credits}"
+                               for="credits">Kreditpunkte</label>
+                        <div class="col-md-4">
+                            <input class="form-control" th:classappend="${#fields.hasErrors('credits')} ? is-invalid : ''"
+                                   type="number" th:field="*{credits}" id="credits"/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('credits')}"
+                                 th:errors="*{credits}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.prerequisites}" for="prerequisites">Voraussetzungen
+                            nach StuPro</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" th:field="*{prerequisites}" id="prerequisites"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" th:text="#{module.recommendedPrerequisites}"
+                               for="recommendedPrerequisites">Empfohlene Voraussetzungen</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" th:field="*{recommendedPrerequisites}"
+                                   id="recommendedPrerequisites"/>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.title}" for="title">Modulname</label>
-                    <div class="col-md-8">
-                        <input class="form-control" th:classappend="${#fields.hasErrors('title')} ? is-invalid : ''"
-                               type="text" th:field="*{title}" id="title"/>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+    
+                <div id="moduleContents" class="tab-pane fade" role="tabpanel">
+                    <h2 th:text="#{moduleCreate.tabContents}">Modulziele</h2>
+                    <div class="row form-group">
+                        <div class="col">
+                            <label class="col-form-label" th:text="#{module.learningOutcomes}"
+                                   for="learningOutcomes">Modulziele</label>
+                            <textarea class="form-control" type="text" th:field="*{learningOutcomes}"
+                                      id="learningOutcomes" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col">
+                            <label class="col-form-label" th:text="#{module.contents}"
+                                   for="contents">Inhalt</label>
+                            <textarea class="form-control" type="text" th:field="*{contents}"
+                                      id="contents" rows="10"></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.areaOfStudies}"
-                           for="areaOfStudies"></label>
-                    <div class="col-md-8">
-                        <select class="form-control"
-                                th:classappend="${#fields.hasErrors('areaOfStudies')} ? is-invalid : ''"
-                                th:field="*{areaOfStudies}" id="areaOfStudies">
-                            <option value="0"></option>
-                            <option th:each="option : ${areaOfStudies}" th:value="${option.id}"
-                                    th:text="${option.name}"></option>
-                        </select>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('areaOfStudies')}"
-                             th:errors="*{areaOfStudies}"></div>
+    
+                <div id="moduleTeachingMethodology" class="tab-pane fade" role="tabpanel">
+                    <h2 th:text="#{moduleCreate.tabTeachingMethodology}">Medienformen</h2>
+                    <div class="row form-group">
+                        <div class="col">
+                            <label class="col-form-label" th:text="#{module.teachingMethodology}"
+                                   for="teachingMethodology">Medienformen</label>
+                            <textarea class="form-control" type="text" th:field="*{teachingMethodology}"
+                                      id="teachingMethodology" rows="20"></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.subtitle}"
-                           for="subtitle">Untertitel</label>
-                    <div class="col-md-8">
-                        <input class="form-control" type="text" th:field="*{subtitle}" id="subtitle"/>
+    
+                <div id="moduleReadingList" class="tab-pane fade" role="tabpanel">
+                    <h2 th:text="#{moduleCreate.tabReadingList}">Literatur</h2>
+                    <div class="row form-group">
+                        <div class="col">
+                            <label class="col-form-label" th:text="#{module.readingList}"
+                                   for="readingList">Literatur</label>
+                            <textarea class="form-control" type="text" th:field="*{readingList}"
+                                      id="readingList" rows="20"></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.offerFrequency}"
-                           for="offerFrequency">Studiensemester</label>
-                    <div class="col-md-4">
-                        <input class="form-control" type="text" th:field="*{offerFrequency}" id="offerFrequency"/>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.moduleCoordinator}"
-                           for="moduleCoordinator">Modulverantwortlicher</label>
-                    <div class="col-md-8">
-                        <input class="form-control" type="text" th:field="*{moduleCoordinator}"
-                               id="moduleCoordinator"/>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.lecturers}"
-                           for="lecturers">Dozent(in)</label>
-                    <div class="col-md-8">
-                        <input class="form-control" type="text" th:field="*{lecturers}" id="lecturers"/>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.teachingLanguage}" for="teachingLanguage">Sprache</label>
-                    <div class="col-md-4">
-                        <input class="form-control" type="text" th:field="*{teachingLanguage}"
-                               id="teachingLanguage"/>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.credits}"
-                           for="credits">Kreditpunkte</label>
-                    <div class="col-md-4">
-                        <input class="form-control" th:classappend="${#fields.hasErrors('credits')} ? is-invalid : ''"
-                               type="number" th:field="*{credits}" id="credits"/>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('credits')}"
-                             th:errors="*{credits}"></div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.prerequisites}" for="prerequisites">Voraussetzungen
-                        nach StuPro</label>
-                    <div class="col-md-8">
-                        <input class="form-control" type="text" th:field="*{prerequisites}" id="prerequisites"/>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label" th:text="#{module.recommendedPrerequisites}"
-                           for="recommendedPrerequisites">Empfohlene Voraussetzungen</label>
-                    <div class="col-md-8">
-                        <input class="form-control" type="text" th:field="*{recommendedPrerequisites}"
-                               id="recommendedPrerequisites"/>
-                    </div>
-                </div>
+                <button type="submit" class="btn btn-success float-right" th:text="#{general.save}">Speichern</button>
             </div>
-
-            <div id="moduleContents" class="tab-pane fade" role="tabpanel">
-                <h2 th:text="#{moduleCreate.tabContents}">Modulziele</h2>
-                <div class="row form-group">
-                    <div class="col">
-                        <label class="col-form-label" th:text="#{module.learningOutcomes}"
-                               for="learningOutcomes">Modulziele</label>
-                        <textarea class="form-control" type="text" th:field="*{learningOutcomes}"
-                                  id="learningOutcomes" rows="10"></textarea>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col">
-                        <label class="col-form-label" th:text="#{module.contents}"
-                               for="contents">Inhalt</label>
-                        <textarea class="form-control" type="text" th:field="*{contents}"
-                                  id="contents" rows="10"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div id="moduleTeachingMethodology" class="tab-pane fade" role="tabpanel">
-                <h2 th:text="#{moduleCreate.tabTeachingMethodology}">Medienformen</h2>
-                <div class="row form-group">
-                    <div class="col">
-                        <label class="col-form-label" th:text="#{module.teachingMethodology}"
-                               for="teachingMethodology">Medienformen</label>
-                        <textarea class="form-control" type="text" th:field="*{teachingMethodology}"
-                                  id="teachingMethodology" rows="20"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div id="moduleReadingList" class="tab-pane fade" role="tabpanel">
-                <h2 th:text="#{moduleCreate.tabReadingList}">Literatur</h2>
-                <div class="row form-group">
-                    <div class="col">
-                        <label class="col-form-label" th:text="#{module.readingList}"
-                               for="readingList">Literatur</label>
-                        <textarea class="form-control" type="text" th:field="*{readingList}"
-                                  id="readingList" rows="20"></textarea>
-                    </div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-success float-right" th:text="#{general.save}">Speichern</button>
-        </div>
-    </form>
+        </form>
+    </th:block>
 </div>
 </body>
 </html>
