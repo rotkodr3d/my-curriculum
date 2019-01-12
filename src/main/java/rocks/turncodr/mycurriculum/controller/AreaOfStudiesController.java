@@ -6,8 +6,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +46,56 @@ public class AreaOfStudiesController {
         return "areaOfStudiesCreate";
     }
 
+    @GetMapping("/areaofstudies/edit")
+    public String getAreaOfStudiesEdit(@RequestParam(value = "id", required = false, defaultValue = "0") String urlId, Model model) {
+        Integer id;
+        try {
+            id = Integer.parseInt(urlId);
+        } catch (NumberFormatException e) {
+            id = 0;
+        }
+        Optional<AreaOfStudies> aosResult = areaOfStudiesJpaRepository.findById(id);
+        if (aosResult.isPresent()) {
+            AreaOfStudies aos = aosResult.get();
+            model.addAttribute("areaOfStudies", aos);
+            model.addAttribute("editMode", true);
+        } else {
+            model.addAttribute("error", "areaOfStudies.doesntExist");
+        }
+        return "areaOfStudiesCreate";
+    }
+
     @PostMapping("/areaofstudies/create")
     public String postAreaOfStudiesCreate(@Valid @ModelAttribute AreaOfStudies areaOfStudies,
             BindingResult bindingResult) {
         areaOfStudies.setName(areaOfStudies.getName());
         colorValidator.validate(areaOfStudies, bindingResult);
         if (bindingResult.hasErrors()) {
+            // validation failed stay on page
+            return "areaOfStudiesCreate";
+        }
+        // validation has been successful save areaOfStudies
+        areaOfStudies.setColorRGB(intToRGB(areaOfStudies.getColor()));
+        areaOfStudiesJpaRepository.save(areaOfStudies);
+        return "redirect:/areaofstudies/list";
+    }
+
+    @PostMapping("/areaofstudies/edit")
+    public String postAreaOfStudiesEdit(@RequestParam(value = "id", required = false, defaultValue = "0") String urlId, @Valid @ModelAttribute AreaOfStudies areaOfStudies,
+            Model model, BindingResult bindingResult) {
+        Integer id;
+        try {
+            id = Integer.parseInt(urlId);
+        } catch (NumberFormatException e) {
+            id = 0;
+        }
+        areaOfStudies.setName(areaOfStudies.getName());
+        areaOfStudies.setId(id);
+        colorValidator.setEditValidation(true);
+        colorValidator.validate(areaOfStudies, bindingResult);
+        colorValidator.setEditValidation(false);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("editMode", true);
             // validation failed stay on page
             return "areaOfStudiesCreate";
         }

@@ -55,10 +55,14 @@ public class ModuleController {
         Optional<Module> moduleResult = moduleJpaRepository.findById(id);
         if (moduleResult.isPresent()) {
             Module module = moduleResult.get();
-            model.addAttribute("module", module);
-            List<AreaOfStudies> areaOfStudiesList = areaOfStudiesJpaRepository.findAll();
-            model.addAttribute("areaOfStudies", areaOfStudiesList);
-            model.addAttribute("editMode",true);
+            if (module.getExReg() == null) {
+                model.addAttribute("module", module);
+                List<AreaOfStudies> areaOfStudiesList = areaOfStudiesJpaRepository.findAll();
+                model.addAttribute("areaOfStudies", areaOfStudiesList);
+                model.addAttribute("editMode",true);
+            } else {
+                model.addAttribute("error", "module.moduleAlreadyMapped");
+            }
         } else {
             model.addAttribute("error", "module.moduleDoesntExist");
         }
@@ -94,6 +98,7 @@ public class ModuleController {
             // validation failed, therefore stay on the page
             List<AreaOfStudies> areaOfStudiesList = areaOfStudiesJpaRepository.findAll();
             model.addAttribute("areaOfStudies", areaOfStudiesList);
+            model.addAttribute("editMode", true);
             return "moduleCreate";
         } else {
             module.setId(id);

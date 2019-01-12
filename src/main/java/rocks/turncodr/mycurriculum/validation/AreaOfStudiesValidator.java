@@ -24,6 +24,8 @@ public class AreaOfStudiesValidator implements Validator {
     private static final int MIN_COLOR_OFFSET = 40;
     private static final int SQUARE = 2;
     private static final double SQUARE_ROOT = 0.5;
+    private boolean isInEditValidation = false;
+    
     @Override
     public boolean supports(Class<?> clazz) {
         return AreaOfStudies.class.equals(clazz);
@@ -39,8 +41,15 @@ public class AreaOfStudiesValidator implements Validator {
             String existingName = aos.getName().toLowerCase();
             String inputName = areaOfStudies.getName().toLowerCase().trim();
             if (existingName.equals(inputName)) {
-                errors.rejectValue("name", "areaOfStudiesCreate.NameError");
-                break;
+                if (!isInEditValidation) {
+                    errors.rejectValue("name", "areaOfStudiesCreate.NameError");
+                    break;
+                } else {
+                    if (aos.getId() != areaOfStudies.getId()) {
+                        errors.rejectValue("name", "areaOfStudiesCreate.NameError");
+                        break;
+                    }
+                }
             }
             int[] existingColor = intColorToIntRGB(aos.getColor());
             int colorDifference = 0;
@@ -50,10 +59,21 @@ public class AreaOfStudiesValidator implements Validator {
             }
             colorDifference = (int) Math.pow(colorDifference, SQUARE_ROOT); //Calculates the 3D offset to an existing color
             if (colorDifference <= MIN_COLOR_OFFSET) {
-                errors.rejectValue("color", "areaOfStudiesCreate.ColorError");
-                break;
+                if (!isInEditValidation) {
+                    errors.rejectValue("color", "areaOfStudiesCreate.ColorError");
+                    break;
+                } else {
+                    if (aos.getId() != areaOfStudies.getId()) {
+                        errors.rejectValue("color", "areaOfStudiesCreate.ColorError");
+                        break; 
+                    }
+                }
             }
         }
+    }
+    
+    public void setEditValidation(boolean b) {
+        isInEditValidation = b;
     }
 
     @SuppressWarnings("checkstyle:magicnumber")

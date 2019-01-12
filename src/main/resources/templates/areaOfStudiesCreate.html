@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="fragments/html :: html(~{this :: head}, ~{this :: #content})">
 <head th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{})">
-    <title th:text="#{areaOfStudiesCreate.title}"></title>
+    <title th:text="${editMode} ? #{areaOfStudiesEdit.title} : #{areaOfStudiesCreate.title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+<<<<<<< HEAD
 <div id="content">
-    <h1 data-th-text="#{areaOfStudiesCreate.title}"/></h1>
+    <h1 data-th-text="${editMode} ? #{areaOfStudiesEdit.title} : #{areaOfStudiesCreate.title}"/></h1>
     <hr class="pb-2">
     <div class="col-md-8">
-        <form id="areaOfStudiesForm" th:action="@{/areaofstudies/create}" th:object="${areaOfStudies}"
+        <form id="areaOfStudiesForm" th:action="${editMode} ? @{/areaofstudies/edit?id=} + |${areaOfStudies.id}| : @{/areaofstudies/create}" th:object="${areaOfStudies}"
               method="POST">
             <div class="form-group row mb-4">
                 <label class="col" th:text="#{areaOfStudies.name}"></label>
@@ -22,7 +23,7 @@
             <div class="form-group row mb-4">
                 <label class="col" th:text="#{areaOfStudies.color}"></label>
                 <div class="col">
-                    <input id="colorInput" class="form-control" type="color" th:field="*{color}"
+                    <input id="colorInput" class="form-control" type="color" th:name="color" th:value="'#' + ${T(java.lang.Integer).toHexString(areaOfStudies.color)}"
                            th:classappend="${#fields.hasErrors('color')} ? is-invalid : ''"/>
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
                 </div>

@@ -2,7 +2,7 @@
 <!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:th="http://www.thymeleaf.org" th:replace="fragments/html :: html(~{this :: head}, ~{this :: #content})">
 <head th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{})">
-    <title th:text="#{moduleCreate.pageTitle}"></title>
+    <title th:text="${editMode} ? #{module.moduleEditTitle} : #{moduleCreate.pageTitle}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <!--/* default css */-->
@@ -18,7 +18,7 @@
 	<div th:if="${error != null}" class="alert alert-danger"
     	role="alert" th:text="#{${error}}"></div>
     <th:block th:if="${error == null}">
-        <h1 th:text="#{moduleCreate.createModuleHeader}">Neues Modul anlegen</h1>
+        <h1 th:text="${editMode} ? #{module.moduleEditTitle} : #{moduleCreate.createModuleHeader}">Neues Modul anlegen</h1>
         <hr class="pb-2"/>
         <!-- th:object="${module}" sets the module attribute of the model as reference for *{...} expressions in this form -->
         <form action="#" th:action="${editMode} ? @{/module/edit?id=} + |${module.id}| :  @{/module/create}" method="post" th:object="${module}">
