@@ -38,7 +38,7 @@
 						th:colspan="${module.credits}" class="module"
 						th:style="'background-color: rgb(' + ${module.areaOfStudies.colorRGB} + '); width: 3.125%'"
 						onclick="showModuleDetails(event);">
-						<p th:text="${module.code + ' ' + module.title}" class=""></p>
+						<span th:text="${module.code + ' ' + module.title}" class=""></span>
 					</td>
 				</tr>
 			</tbody>

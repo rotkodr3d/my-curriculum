@@ -34,8 +34,24 @@ footer .icon-foreground {
 	z-index: 1;
 }
 
-.table-module-overview td, .table-module-overview p{
-	hyphens: auto;
-	word-break: break-word;
-	word-wrap: break-word;
+.table-module-overview {
+	
+ table-layout: fixed;
+	width: 100%;
+   
 }
+
+.table-module-overview td {
+    word-wrap: break-word;
+-moz-hyphens: auto;
+-webkit-hyphens: auto;
+-ms-hyphens: auto;
+-o-hyphens: auto;
+hyphens: auto;
+width: 3.125%;
+    border: 1px solid;  
+}
+
+ .table-module-overview span {
+ 
+ }
