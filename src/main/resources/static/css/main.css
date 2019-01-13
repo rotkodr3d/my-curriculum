@@ -35,23 +35,17 @@ footer .icon-foreground {
 }
 
 .table-module-overview {
-	
- table-layout: fixed;
-	width: 100%;
-   
+    table-layout: fixed;
+    width: 100%;  
 }
 
 .table-module-overview td {
-    word-wrap: break-word;
--moz-hyphens: auto;
--webkit-hyphens: auto;
--ms-hyphens: auto;
--o-hyphens: auto;
-hyphens: auto;
-width: 3.125%;
-    border: 1px solid;  
+    border: 1px solid #6d6e71;
+    vertical-align:top;
+    hyphens: auto;
+    width: 3.125%;
 }
 
- .table-module-overview span {
- 
+ .table-module-overview p {
+
  }
