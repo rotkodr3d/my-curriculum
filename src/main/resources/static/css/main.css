@@ -36,7 +36,8 @@ footer .icon-foreground {
 
 .table-module-overview {
     table-layout: fixed;
-    width: 100%;  
+    width: 100%;
+    break-word: normal;  
 }
 
 .table-module-overview td {
@@ -46,6 +47,15 @@ footer .icon-foreground {
     width: 3.125%;
 }
 
- .table-module-overview p {
+.table-module-overview tr td:first-child, .table-module-overview thead th:first-child{
+    width: 6.25%;
+}
 
+ .table-module-overview th {
+    border: 1px solid #6d6e71;
+ }
+ 
+ .table-module-overview tfoot td, .table-module-overview thead th {
+    background-color: #6d6e71;
+    overflow-wrap: break-word;
  }

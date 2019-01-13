@@ -5,10 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
-
 import java.sql.Date;
 
 /**
@@ -63,7 +59,7 @@ public class ExReg {
     }
 
     public int getNumberOfSemesters() {
-    	return numberOfSemesters;
+        return numberOfSemesters;
     }
 
     public void setNumberOfSemesters(int numberOfSemesters) {

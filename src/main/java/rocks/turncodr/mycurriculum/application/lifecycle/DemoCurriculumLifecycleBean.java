@@ -405,7 +405,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
     private void createExreg() {
         ExReg wib = new ExReg();
         wib.setName("Wirtschaftsinformatik");
-        wib.setExpiresOn(new Date(1538344800000l));
+        wib.setExpiresOn(new Date(1538344800000L));
         wib.setNumberOfSemesters(6);
         wib = exregJpaRepository.save(wib);
         System.out.println(wib.getId());
@@ -475,7 +475,7 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module2.setReadingList("Mathematik für Wirtschaftswissenschaftler");
             module2.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Mathematik"));
             modules.add(module2);
-            
+
             Module module3 = new Module();
             module3.setCode("0090");
             module3.setTitle("Datenbanksysteme");
@@ -488,17 +488,17 @@ public class DemoCurriculumLifecycleBean implements SmartLifecycle {
             module3.setCredits(7);
             module3.setPrerequisites("keine");
             module3.setRecommendedPrerequisites("0031,0041,0081");
-            module3.setLearningOutcomes("Das Ziel des Moduls ist es, den Studierenden eine allgemeine Einführung in das \r\n" + 
-                    "Themengebiet Datenbank\r\n" + 
-                    "-\r\n" + 
-                    "und Informationssystemen zu geben.");
+            module3.setLearningOutcomes("Das Ziel des Moduls ist es, den Studierenden eine allgemeine Einführung in das \r\n"
+            + "Themengebiet Datenbank\r\n"
+            + "-\r\n"
+            + "und Informationssystemen zu geben.");
             module3.setContents("Kenntnis der grundlegenden Konzepte");
             module3.setTeachingMethodology("Vorlesung mit begleitendem Praktikum.");
             module3.setReadingList("Datenbanksysteme für Informatiker");
             module3.setExReg(exregJpaRepository.findAll().get(0));
             module3.setAreaOfStudies(areaOfStudiesJpaRepository.findByName("Informatik"));
             modules.add(module3);
-            
+
             Module module4 = new Module();
             module4.setCode("0080");
             module4.setTitle("Webprogrammierung");

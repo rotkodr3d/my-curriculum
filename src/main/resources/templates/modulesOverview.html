@@ -15,30 +15,29 @@
 	<div class="container" id="content">
         <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="#{exregSyllabus.exregDoesntExist}"></div>
         <th:block th:if="${error == null}">
-            <h1>Modulübersicht</h1>
+            <h1 th:text="#{exregSyllabus.overviewTitle}">Modulübersicht</h1>
     		<table class="table-module-overview">
-    			<thead>
+    			<thead class="text-white">
     				<tr>
-    					<th style="width: 6.25%">Sem</th>
-    					<th th:text="${exreg.name}" colspan="30"></th>
+    					<th>Sem</th>
+    					<th th:text="${exreg.name}"  class="text-center" colspan="30"></th>
     				</tr>
     			</thead>
-    			<tfoot>
+    			<tfoot class="text-white">
     				<tr>
-    					<td style="width: 6.25%; padding: 0px;">ECTS</td>
-    					<td th:each="i : ${#numbers.sequence(1,30)}" th:text="${i}"
-    						style="width: 3.125%; padding: 0px;"></td>
+    					<td>ECTS</td>
+    					<td th:each="i : ${#numbers.sequence(1,30)}" th:text="${i}"></td>
     				</tr>
     			</tfoot>
     			<tbody>
     				<tr th:each="i : ${#numbers.sequence(exRegSemester,1)}">
-    					<td th:text="${i}" class="" style="width: 6.25%"></td>
+    					<td th:text="${i}"></td>
     					<td th:each="module : ${exRegModules}"
     						th:if="${module.semester} == ${i}" th:id="${module.id}"
     						th:colspan="${module.credits}" class="module"
     						th:style="'background-color: rgb(' + ${module.areaOfStudies.colorRGB} + ');'"
     						onclick="showModuleDetails(event);">
-    						<p th:text="${module.code + ' ' + module.title}" class=""></p>
+    						<p th:text="${module.title}" class=""></p>
     					</td>
     				</tr>
     			</tbody>
