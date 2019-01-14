@@ -3,7 +3,7 @@
 <head
 	th:replace="fragments/head :: head(~{this :: title}, ~{}, ~{this :: .custom-script})">
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title th:text="#{exregSyllabus.overviewTitle}">Insert title here</title>
 <script class="custom-script" th:inline="javascript">
     var exRegModules = /*[[${exRegModules}]]*/{};
 </script>
@@ -16,6 +16,7 @@
         <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="#{exregSyllabus.exregDoesntExist}"></div>
         <th:block th:if="${error == null}">
             <h1 th:text="#{exregSyllabus.overviewTitle}">Modulübersicht</h1>
+            <div class="p-3"></div>
     		<table class="table-module-overview">
     			<thead class="text-white">
     				<tr>
@@ -36,6 +37,8 @@
     						th:if="${module.semester} == ${i}" th:id="${module.id}"
     						th:colspan="${module.credits}" class="module"
     						th:style="'background-color: rgb(' + ${module.areaOfStudies.colorRGB} + ');'"
+    						th:onmouseover="|this.style.backgroundColor='rgba(${module.areaOfStudies.colorRGB},0.7)';|"
+    						th:onmouseout="|this.style.backgroundColor='rgb(${module.areaOfStudies.colorRGB})';|"
     						onclick="showModuleDetails(event);">
     						<p th:text="${module.title}" class=""></p>
     					</td>
