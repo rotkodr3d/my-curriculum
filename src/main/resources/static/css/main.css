@@ -51,11 +51,16 @@ footer .icon-foreground {
     width: 6.25%;
 }
 
- .table-module-overview th {
+.table-module-overview th {
     border: 1px solid #6d6e71;
- }
+}
  
- .table-module-overview tfoot td, .table-module-overview thead th {
+.table-module-overview tfoot td, .table-module-overview thead th {
     background-color: #6d6e71;
     overflow-wrap: break-word;
- }
+}
+
+.modal-module-overview {
+    margin-left: -1rem;
+    margin-right: -3rem;
+}

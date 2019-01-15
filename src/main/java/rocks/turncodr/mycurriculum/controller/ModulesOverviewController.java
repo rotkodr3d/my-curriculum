@@ -1,6 +1,7 @@
 package rocks.turncodr.mycurriculum.controller;
 
 import java.util.Optional;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import rocks.turncodr.mycurriculum.model.AreaOfStudies;
 import rocks.turncodr.mycurriculum.model.ExReg;
 import rocks.turncodr.mycurriculum.model.Module;
 import rocks.turncodr.mycurriculum.services.ExRegJpaRepository;
@@ -37,6 +40,12 @@ public class ModulesOverviewController {
             model.addAttribute("exRegSemester", getNumberOfSemesters(exreg));
             model.addAttribute("exRegModules", moduleJpaRepository.findByExReg(exreg));
             model.addAttribute("exreg", exreg);
+
+            TreeSet<AreaOfStudies> areaOfStudiesUsed = new TreeSet<>();
+            for (Module module : moduleJpaRepository.findByExReg(exreg)) {
+                areaOfStudiesUsed.add(module.getAreaOfStudies());
+            }
+            model.addAttribute("areaOfStudiesUsed", areaOfStudiesUsed);
             return "modulesOverview";
         } else {
             model.addAttribute("error", "exregSyllabus.exregDoesntExist");

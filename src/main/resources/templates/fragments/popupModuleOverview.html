@@ -25,7 +25,7 @@
         data-keyboard="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content container-fluid">
-                <div class="modal-header">
+                <div class="modal-header" style="border-bottom: none; padding-bottom: 0rem;">
                     <div class="container">
                         <div
                             class="form-group row justify-content-md-left">
@@ -34,8 +34,9 @@
                             <h4 class="modal-title col-md-auto pr-1"
                                 th:text="${module.code}"></h4>
                             <h4 class="modal-title col-md-auto pl-1"
-                                th:text="${module.title}"></h4>
+                                th:text="${module.title}"></h4>                        
                         </div>
+                        <div class="py-2 px-2 modal-module-overview" th:style="|background-image: linear-gradient(to right,rgb(${module.areaOfStudies.colorRGB}),white)|"></div>
                     </div>
                     <button type="button" class="close"
                         data-dismiss="modal">&times;</button>

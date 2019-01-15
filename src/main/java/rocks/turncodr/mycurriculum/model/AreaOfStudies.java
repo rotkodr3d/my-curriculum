@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
  *
  */
 @Entity
-public class AreaOfStudies {
+public class AreaOfStudies implements Comparable<AreaOfStudies> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -81,5 +81,10 @@ public class AreaOfStudies {
 
     public String getColorRGB() {
         return colorRGB;
+    }
+
+    @Override
+    public int compareTo(AreaOfStudies areaOfStudies) {
+        return this.name.compareTo(areaOfStudies.name);
     }
 }

@@ -45,6 +45,14 @@
     				</tr>
     			</tbody>
     		</table>
+            <div>
+                <table class="my-4">
+                    <tr th:each="areaOfStudies : ${areaOfStudiesUsed}">
+                        <td th:style="|background-color: rgb(${areaOfStudies.colorRGB}); width: 1rem|"></td>
+                        <td th:text="${areaOfStudies.name}"></td>
+                    </tr>
+                </table>
+            </div>
         </th:block>
 	</div>
 </body>
