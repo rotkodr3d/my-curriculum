@@ -6,6 +6,9 @@
 </head>
 <body>
 <div id="content">
+	<div th:if="${error != null}" class="alert alert-danger"
+    	role="alert" th:text="#{${error}}"></div>
+    <th:block th:if="${error == null}">
     <h1 data-th-text="${editMode} ? #{areaOfStudiesEdit.title} : #{areaOfStudiesCreate.title}"/></h1>
     <hr class="pb-2">
     <div class="col-md-8">
@@ -22,7 +25,7 @@
             <div class="form-group row">
                 <label class="col-md-4 col-form-label" th:text="#{areaOfStudies.color}"></label>
                 <div class="col-md-4">
-                    <input id="colorInput" class="form-control" type="color" th:name="color" th:value="'#' + ${T(java.lang.Integer).toHexString(areaOfStudies.color)}"
+                    <input id="colorInput" class="form-control" type="color" th:name="color" th:value="${editMode} ? ${moduleColor} : '#000000'"
                            th:classappend="${#fields.hasErrors('color')} ? is-invalid : ''"/>
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
                 </div>
@@ -34,6 +37,7 @@
             </div>
         </form>
     </div>
+    </th:block>
 </div>
 </body>
 </html>

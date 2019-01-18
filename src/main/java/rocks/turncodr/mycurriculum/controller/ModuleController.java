@@ -101,7 +101,6 @@ public class ModuleController {
             model.addAttribute("editMode", true);
             return "moduleCreate";
         } else {
-            module.setId(id);
             moduleJpaRepository.save(module);
             return "redirect:/module/list";
         }

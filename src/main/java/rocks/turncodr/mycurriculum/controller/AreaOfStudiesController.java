@@ -47,7 +47,7 @@ public class AreaOfStudiesController {
     }
 
     @GetMapping("/areaofstudies/edit")
-    public String getAreaOfStudiesEdit(@RequestParam(value = "id", required = false, defaultValue = "0") String urlId, Model model) {
+    public String getAreaOfStudiesEdit(@RequestParam(value = "id", required = true, defaultValue = "0") String urlId, Model model) {
         Integer id;
         try {
             id = Integer.parseInt(urlId);
@@ -59,8 +59,9 @@ public class AreaOfStudiesController {
             AreaOfStudies aos = aosResult.get();
             model.addAttribute("areaOfStudies", aos);
             model.addAttribute("editMode", true);
+            model.addAttribute("moduleColor", '#' + String.format("%06X" ,aos.getColor()));
         } else {
-            model.addAttribute("error", "areaOfStudies.doesntExist");
+            model.addAttribute("error", "areaOfStudiesEdit.doesntExist");
         }
         return "areaOfStudiesCreate";
     }
@@ -90,7 +91,6 @@ public class AreaOfStudiesController {
             id = 0;
         }
         areaOfStudies.setName(areaOfStudies.getName());
-        areaOfStudies.setId(id);
         colorValidator.setEditValidation(true);
         colorValidator.validate(areaOfStudies, bindingResult);
         colorValidator.setEditValidation(false);
