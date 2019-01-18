@@ -82,14 +82,7 @@ public class AreaOfStudiesController {
     }
 
     @PostMapping("/areaofstudies/edit")
-    public String postAreaOfStudiesEdit(@RequestParam(value = "id", required = false, defaultValue = "0") String urlId, @Valid @ModelAttribute AreaOfStudies areaOfStudies,
-            Model model, BindingResult bindingResult) {
-        Integer id;
-        try {
-            id = Integer.parseInt(urlId);
-        } catch (NumberFormatException e) {
-            id = 0;
-        }
+    public String postAreaOfStudiesEdit(String urlId, @Valid @ModelAttribute AreaOfStudies areaOfStudies, Model model, BindingResult bindingResult) {
         areaOfStudies.setName(areaOfStudies.getName());
         colorValidator.setEditValidation(true);
         colorValidator.validate(areaOfStudies, bindingResult);
