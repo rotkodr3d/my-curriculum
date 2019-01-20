@@ -297,12 +297,6 @@ function createStub() {
  * Creates the card for the new stub.
  */
 function addStub(stub) {
-//    var areaOfStudiesColor;
-//    areaOfStudiesList.forEach(function(areaOfStudies) {
-//        if (areaOfStudies.id == stub.areaOfStudies) {
-//            areaOfStudiesColor = areaOfStudies.colorRGB;
-//        }
-//    });
     $('<div></div>', {
         "class": "card module",
         "style": "background-color:rgb(" + areaOfStudiesMap[stub.areaOfStudies.id].colorRGB + ")",
@@ -330,6 +324,90 @@ function checkPlaceholder(modulesArea) {
     } else if (modulesArea !== undefined && modulesArea.children().length === 0) {
         modulesArea.append(dragAndDropModulePlaceholder.clone());
     }
+}
+
+function refreshPage() {
+    $("#refreshButtonIcon").addClass("fa-spin");
+    $.ajax({
+        url: '/exreg/refresh',
+        success: function (response) {
+            var selectCurriculum = $("#" + "exReg_curriculum");
+            selectCurriculum.find("option:not(:first)").remove();           //delete all options, but not the first one 
+            var updatedOptions = response.curriculumList;
+            for (var i = 0; i < updatedOptions.length; i++) {               //iterate over new options and append them
+                var option = updatedOptions[i];
+                selectCurriculum.append("<option value=" + option.id + ">" + option.acronym + " " + option.name +"</option>");
+            }
+
+            var selectAreaOfStudies = $("#areaOfStudies");
+            selectAreaOfStudies.find("option").remove(); 
+            var updatedOptions = response.areaOfStudiesList;
+            for (var i = 0; i < updatedOptions.length; i++) {               //iterate over new options and append them
+                var option = updatedOptions[i];
+                selectAreaOfStudies.append("<option value=" + option.id + ">" + option.name +"</option>");
+            }
+
+            var updatedModuleList = response.moduleList;
+            var oldModuleList = listOfUnmappedModules;
+            
+            for (var i = 0; i < oldModuleList.length; i++) {                //Iterate through the old and updated Module list and check if module is still unmapped
+                var stillUnmapped = false;
+                for(var j = 0; j < updatedModuleList.length; j++) {
+                    if (oldModuleList[i].id === updatedModuleList[j].id) {
+                        stillUnmapped = true;                               //set unmapped flag to true, since the id is also found in the updated list
+                    }
+                }
+                if (!stillUnmapped) {                                       //if unmapped flag is false delete module from DOM
+                    $('.module[data-module-id=' + oldModuleList[i].id + ']').remove();
+                }
+            }
+            
+            var idPrefix = "modulelist_module";
+            $(updatedModuleList).each(function(index, module) {             
+                var moduleToReplace = $.find('#' + idPrefix + module.id);
+                if (moduleToReplace.length != 0) {                                  //checks if module has html representation
+                    $(moduleToReplace).replaceWith(createModule(module));           //if so replace it with updated model
+                } else {
+                    $(createModule(module)).appendTo($('#unmappedModulesList'));    //if it has no representation generate one and append to unmapped modules list
+                }
+            });
+
+            var allModulesArea = $.find("div.modulesArea");
+            $(allModulesArea).each(function(index, modulesArea) {                   //check all modules area if they need a placeholder due to the removal of already mapped modules
+                checkPlaceholder($(modulesArea));
+            });
+
+            listOfUnmappedModules = updatedModuleList;
+            existingModulesMap = response.existingModulesMap;
+            areaOfStudiesMap = response.areaOfStudiesMap;
+        },
+        error: function (response) {
+            console.log(response);
+        }
+    });
+    window.setTimeout(function() {$("#refreshButtonIcon").removeClass("fa-spin");},1000); 
+}
+
+/**
+ * 
+ * Creates the "real" html module representation, not stubs!
+ */
+function createModule(module) {
+    return $('<div></div>', {
+            "class": "card module",
+            "style": "background-color:rgb(" + module.areaOfStudies.colorRGB + ")",
+            id: "modulelist_module" + module.id,
+            "data-module-id": module.id,
+            draggable: true,
+            on: {
+                dragstart: drag
+            }
+        }).append(
+            $('<div></div>', {
+                "class": "card-header text-truncate",
+                html: module.code + ' ' + module.title
+            })
+        );
 }
 
 /**
