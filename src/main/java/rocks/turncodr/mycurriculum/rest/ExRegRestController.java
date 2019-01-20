@@ -3,16 +3,25 @@ package rocks.turncodr.mycurriculum.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import rocks.turncodr.mycurriculum.error.Message;
 import rocks.turncodr.mycurriculum.json.ExRegSaveData;
 import rocks.turncodr.mycurriculum.json.Response;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import rocks.turncodr.mycurriculum.model.AreaOfStudies;
 import rocks.turncodr.mycurriculum.model.Curriculum;
 import rocks.turncodr.mycurriculum.model.ExReg;
 import rocks.turncodr.mycurriculum.model.Module;
+import rocks.turncodr.mycurriculum.services.AreaOfStudiesJpaRepository;
 import rocks.turncodr.mycurriculum.services.CurriculumJpaRepository;
 import rocks.turncodr.mycurriculum.services.ExRegJpaRepository;
 import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
@@ -20,6 +29,7 @@ import rocks.turncodr.mycurriculum.services.ModuleJpaRepository;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -38,11 +48,15 @@ public class ExRegRestController {
 
     @Autowired
     private CurriculumJpaRepository curriculumJpaRepository;
+
     /**
      * Utility to get i18n without using the thymeleaf engine.
      */
     @Autowired
     private MessageSource messageSource;
+
+    @Autowired
+    private AreaOfStudiesJpaRepository areaOfStudiesJpaRepository;
 
     /**
      * Creates a new exReg object and maps the selected modules to it.
@@ -138,6 +152,42 @@ public class ExRegRestController {
             module.setExReg(exReg);
         }
         moduleJpaRepository.saveAll(newModuleStubs);
+    }
+
+    @RequestMapping(value = "/exreg/refresh", produces = "application/json")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ResponseEntity<Object> ajaxRefreshExreg() {
+        List<Module> moduleList = moduleJpaRepository.findByExReg(null);
+
+        List<AreaOfStudies> areaOfStudiesList = areaOfStudiesJpaRepository.findAll();
+        HashMap<Integer, AreaOfStudies> areaOfStudiesMap = new HashMap<>();
+        for (AreaOfStudies areaOfStudies : areaOfStudiesList) {
+            areaOfStudiesMap.put(areaOfStudies.getId(), areaOfStudies);
+        }
+
+        HashMap<String, Module> existingModulesMap = new HashMap<>();
+        for (Module module : moduleList) {
+            existingModulesMap.put(module.getId().toString(), module);
+        }
+        List<Curriculum> curriculumList = curriculumJpaRepository.findAll();
+        HashMap<String, Object> returnMap = new HashMap<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = "";
+
+        returnMap.put("existingModulesMap", existingModulesMap);
+        returnMap.put("moduleList", moduleList);
+        returnMap.put("areaOfStudiesList", areaOfStudiesList);
+        returnMap.put("areaOfStudiesMap", areaOfStudiesMap);
+        returnMap.put("curriculumList", curriculumList);
+
+        try {
+            json = mapper.writeValueAsString(returnMap);
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return new ResponseEntity<Object>(json, HttpStatus.OK);
     }
 
     @ExceptionHandler
