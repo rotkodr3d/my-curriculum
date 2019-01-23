@@ -12,7 +12,7 @@
     <script class="custom-script" src="../static/js/exregOverview.js" th:src="@{/js/exregOverview.js}"></script>
 </head>
 <body>
-<div id="content" th:lang="${#locale}">
+<div id="content" lang="de">
     <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="#{${error}}"></div>
     <th:block th:if="${error == null}">
         <h1 th:text="#{exregOverview.overviewTitle}">Modulübersicht</h1>
