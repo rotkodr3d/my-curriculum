@@ -20,9 +20,9 @@
 
     <!--/* custom scripts */-->
     <script class="custom-script" th:inline="javascript">
-        var listOfUnmappedModules = /*[[${moduleList}]]*/ [];
-        var dropYourModuleHere = /*[[#{exRegCreate.dropYourModuleHere}]]*/ '';
-        var areaOfStudiesMap = /*[[${areaOfStudiesMap}]]*/ [];
+        let listOfUnmappedModules = /*[[${moduleList}]]*/ [];
+        let dropYourModuleHere = /*[[#{exRegCreate.dropYourModuleHere}]]*/ '';
+        let areaOfStudiesMap = /*[[${areaOfStudiesMap}]]*/ [];
     </script>
     <script class="custom-script" src="../static/js/exregMapModules.js" th:src="@{/js/exregMapModules.js}"></script>
 </head>

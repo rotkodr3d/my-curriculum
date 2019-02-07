@@ -1,27 +1,27 @@
 /**
  * List of modules that already exist in the DB.
  */
-var existingModulesMap = [];
+let existingModulesMap = [];
 /**
  * List of module stubs that are dynamically created by the user.
  */
-var moduleStubs = [];
+let moduleStubs = [];
 /**
  * Id Counter for the created module Stubs.
  */
-var nextStubId = 1;
+let nextStubId = 1;
 /**
  * Counter which keeps the number of the next semester.
  * It's also used to create the semester IDs.
  */
-var semesterCounter = 1;
-var delBtnSemesterId = {};//object which maps the delete button ids to semester id
-var listOfSemester = {};//object which maps the semester id to the semesterCounter
+let semesterCounter = 1;
+let delBtnSemesterId = {};//object which maps the delete button ids to semester id
+let listOfSemester = {};//object which maps the semester id to the semesterCounter
 
 /**
  * "Dummy Module" that acts as a placeholder to show the user where to drop the module.
  */
-var dragAndDropModulePlaceholder = $('<div></div>', {
+let dragAndDropModulePlaceholder = $('<div></div>', {
     "class": "card text-muted dragAndDropPlaceholder",
     on: {
         dragover: function (event) {
@@ -31,7 +31,7 @@ var dragAndDropModulePlaceholder = $('<div></div>', {
             event.preventDefault();
             //because jQuery only passes the jQuery event object instead of the browser event object
             event.dataTransfer = event.originalEvent.dataTransfer;
-            var draggedElementId = event.dataTransfer.getData("text");
+            let draggedElementId = event.dataTransfer.getData("text");
             testAndSetPlaceholder(draggedElementId);
             $('#' + draggedElementId).detach().appendTo(this.parent());
             this.remove();
@@ -49,10 +49,10 @@ function addNewSemester() {
     if (semesterCounter < 1) {
         semesterCounter = 1;
     }
-    var semesterId = "semester" + semesterCounter;
-    var delBtnId = "deleteButton" + semesterCounter;
-    var spanId = "semesterSpan" + semesterCounter;
-    var semesterBodyId = "semesterbody" + semesterCounter;
+    let semesterId = "semester" + semesterCounter;
+    let delBtnId = "deleteButton" + semesterCounter;
+    let spanId = "semesterSpan" + semesterCounter;
+    let semesterBodyId = "semesterbody" + semesterCounter;
     delBtnSemesterId[delBtnId] = semesterId;
     listOfSemester[semesterId] = {
         "semesterNr": semesterCounter,
@@ -72,16 +72,16 @@ function addNewSemester() {
                 event.preventDefault();
                 //because jQuery only passes the jQuery event object instead of the browser event object
                 event.dataTransfer = event.originalEvent.dataTransfer;
-                var draggedElementId = '#' + event.dataTransfer.getData("text");
+                let draggedElementId = '#' + event.dataTransfer.getData("text");
 
                 if ($(draggedElementId).hasClass("semester")) {
-                    var targetElementId = '#' + $(event.target).parents("div.semester").attr("id");
+                    let targetElementId = '#' + $(event.target).parents("div.semester").attr("id");
 
                     if (draggedElementId != event.target.id) {
-                        var modulesAreaDragged = $(draggedElementId).find("div.modulesArea");
-                        var modulesAreaTarget = $(targetElementId).find("div.modulesArea");
-                        var modulesDragged = modulesAreaDragged.find("div.module");
-                        var modulesTarget = modulesAreaTarget.find("div.module");
+                        let modulesAreaDragged = $(draggedElementId).find("div.modulesArea");
+                        let modulesAreaTarget = $(targetElementId).find("div.modulesArea");
+                        let modulesDragged = modulesAreaDragged.find("div.module");
+                        let modulesTarget = modulesAreaTarget.find("div.module");
                         modulesDragged.detach().appendTo(modulesAreaTarget);
                         modulesTarget.detach().appendTo(modulesAreaDragged);
                         checkPlaceholder(modulesAreaDragged);
@@ -97,7 +97,7 @@ function addNewSemester() {
      * Declaration of the semester body, here the modules
      * will be appended when the user drops modules on the semester.
      */
-    var semesterBody = $('<div></div>', {
+    let semesterBody = $('<div></div>', {
         id: semesterBodyId,
         "class": "card-body modulesArea px-2 pt-2 pb-0",
         on: {
@@ -108,9 +108,11 @@ function addNewSemester() {
                 event.preventDefault();
                 //because jQuery only passes the jQuery event object instead of the browser event object
                 event.dataTransfer = event.originalEvent.dataTransfer;
-                var draggedElementId = event.dataTransfer.getData("text");
+                let draggedElementId = event.dataTransfer.getData("text");
 
-                if ($('#' + draggedElementId).hasClass("semester")) {return;}
+                if ($('#' + draggedElementId).hasClass("semester")) {
+                    return;
+                }
 
                 testAndSetPlaceholder(draggedElementId);
                 //semesterBody.find('.dragAndDropPlaceholder').remove();
@@ -126,7 +128,7 @@ function addNewSemester() {
      * Construction of the semester title.
      * Also the drag and drop logic for the title gets added (see dragover and drop).
      */
-    var semesterTitle = $('<div></div>', {
+    let semesterTitle = $('<div></div>', {
         "class": "card-header",
         html: "<span id=" + spanId + ">" + semesterCounter + ". Semester</span>",
         on: {
@@ -140,9 +142,11 @@ function addNewSemester() {
                 event.preventDefault();
                 //because jQuery only passes the jQuery event object instead of the browser event object
                 event.dataTransfer = event.originalEvent.dataTransfer;
-                var draggedElementId = event.dataTransfer.getData("text");
+                let draggedElementId = event.dataTransfer.getData("text");
 
-                if ($('#' + draggedElementId).hasClass("semester")) {return;}
+                if ($('#' + draggedElementId).hasClass("semester")) {
+                    return;
+                }
 
                 testAndSetPlaceholder(draggedElementId);
                 semesterBody.find('.dragAndDropPlaceholder').remove();
@@ -169,15 +173,15 @@ function addNewSemester() {
                  * Browser issue: When the span character is clicked in Chrome: Event target is a span
                  * In Firefox it is the button.
                  */
-                var idToDelete = delBtnSemesterId[event.target.id || $(event.target).parent().attr('id') || $(event.target).parent().parent().attr('id')];
-                var semesterToDelete = listOfSemester[idToDelete];
-                var lastSemester = $("#semesterContainer").children(":last");
-                var modules = {};
-                var modulesLast = null;
+                let idToDelete = delBtnSemesterId[event.target.id || $(event.target).parent().attr('id') || $(event.target).parent().parent().attr('id')];
+                let semesterToDelete = listOfSemester[idToDelete];
+                let lastSemester = $("#semesterContainer").children(":last");
+                let modules = {};
+                let modulesLast = null;
 
-                for (var i = semesterCounter - 1; i >= semesterToDelete.semesterNr; i--) {
-                    var idThis = "#semester" + i;
-                    var modulesArea = $(idThis).find("div.modulesArea");
+                for (let i = semesterCounter - 1; i >= semesterToDelete.semesterNr; i--) {
+                    let idThis = "#semester" + i;
+                    let modulesArea = $(idThis).find("div.modulesArea");
 
                     modules = $(idThis).find("div.module");
                     if (i > semesterToDelete.semesterNr) {
@@ -223,15 +227,15 @@ function allowDrag(event) {
  */
 function moduleListDrop(event) {
     event.preventDefault();
-    var idDataTransfer = '#'+(event.dataTransfer.getData("text"));
+    let idDataTransfer = '#' + (event.dataTransfer.getData("text"));
     if ($(idDataTransfer).hasClass("semester")) {
-        var modulesArea = $(idDataTransfer).find("div.modulesArea");
-        var modules = $(idDataTransfer).find("div.module");
+        let modulesArea = $(idDataTransfer).find("div.modulesArea");
+        let modules = $(idDataTransfer).find("div.module");
         modules.detach().appendTo($("#unmappedModulesList"));
         checkPlaceholder(modulesArea);
         return;
     }
-    var moduleId = event.dataTransfer.getData("text");
+    let moduleId = event.dataTransfer.getData("text");
     testAndSetPlaceholder(moduleId);
     $('#' + moduleId).detach().appendTo($('#unmappedModulesList'));
 }
@@ -252,7 +256,7 @@ function drag(event) {
  * and drop placeholder.
  */
 function testAndSetPlaceholder(draggedModuleId) {
-    var modulesArea = $('#' + draggedModuleId).closest(".modulesArea");
+    let modulesArea = $('#' + draggedModuleId).closest(".modulesArea");
     if (modulesArea !== undefined && modulesArea.children().length === 1) {
         modulesArea.append(dragAndDropModulePlaceholder.clone());
     }
@@ -266,14 +270,14 @@ function createStub() {
     if ($('#stub_title').val()) {
 
         //reset title field if it was marked as invalid
-        if($('#stub_title').hasClass('is-invalid')){
+        if ($('#stub_title').hasClass('is-invalid')) {
             $('#stub_title').removeClass('is-invalid');
         }
 
-        var stub = {
+        let stub = {
             code: $('#stub_code').val(),
             title: $('#stub_title').val(),
-            areaOfStudies: areaOfStudiesMap[$('#areaOfStudies').val().replace("#","")],
+            areaOfStudies: areaOfStudiesMap[$('#areaOfStudies').val().replace("#", "")],
             lecturers: $('#stub_lecturers').val(),
             stubId: nextStubId
         };
@@ -298,8 +302,8 @@ function createStub() {
  */
 function addStub(stub) {
     $('<div></div>', {
-        "class": "card module",
-        "style": "background-color:rgb(" + areaOfStudiesMap[stub.areaOfStudies.id].colorRGB + ")",
+        class: "card module",
+        style: "background-color:rgb(" + areaOfStudiesMap[stub.areaOfStudies.id].colorRGB + ")",
         id: "modulelist_stub" + stub.stubId,
         "data-stub-id": stub.stubId,
         draggable: true,
@@ -330,84 +334,109 @@ function refreshPage() {
     $("#refreshButtonIcon").addClass("fa-spin");
     $.ajax({
         url: '/exreg/refresh',
-        success: function (response) {
-            var selectCurriculum = $("#" + "exReg_curriculum");
-            selectCurriculum.find("option:not(:first)").remove();           //delete all options, but not the first one 
-            var updatedOptions = response.curriculumList;
-            for (var i = 0; i < updatedOptions.length; i++) {               //iterate over new options and append them
-                var option = updatedOptions[i];
-                selectCurriculum.append("<option value=" + option.id + ">" + option.acronym + " " + option.name +"</option>");
-            }
+        type: 'POST',
+        success: ({
+                      moduleList: newUnmappedModules = [],
+                      areaOfStudiesMap: newAreaOfStudiesMap = {},
+                      existingModulesMap: newExistingModulesMap = {},
+                      areaOfStudiesList = [], curriculumList = []
+                  }) => {
 
-            var selectAreaOfStudies = $("#areaOfStudies");
-            selectAreaOfStudies.find("option").remove(); 
-            var updatedOptions = response.areaOfStudiesList;
-            for (var i = 0; i < updatedOptions.length; i++) {               //iterate over new options and append them
-                var option = updatedOptions[i];
-                selectAreaOfStudies.append("<option value=" + option.id + ">" + option.name +"</option>");
-            }
+            /*
+             * update the curriculum Select List
+             */
+            let selectCurriculum = $("#exReg_curriculum");
+            selectCurriculum.find("option:not(:first)").remove(); //delete all options but the first one
 
-            var updatedModuleList = response.moduleList;
-            var oldModuleList = listOfUnmappedModules;
-            
-            for (var i = 0; i < oldModuleList.length; i++) {                //Iterate through the old and updated Module list and check if module is still unmapped
-                var stillUnmapped = false;
-                for(var j = 0; j < updatedModuleList.length; j++) {
-                    if (oldModuleList[i].id === updatedModuleList[j].id) {
-                        stillUnmapped = true;                               //set unmapped flag to true, since the id is also found in the updated list
+            curriculumList.forEach(curriculum => { //iterate over new curriculum options and append them
+                $("<option></option>", {
+                    text: `${curriculum.acronym} ${curriculum.name}`,
+                    value: curriculum.id
+                }).appendTo(selectCurriculum);
+            });
+
+            /*
+             * update the areaOfStudies Select List in the add Module Stub
+             */
+            let selectAreaOfStudies = $("#areaOfStudies");
+            selectAreaOfStudies.find("option").remove(); // empty the list
+
+            areaOfStudiesList.forEach(areaOfStudies => { //iterate over new areaOfStudies options and append them
+                $("<option></option>", {
+                    text: `${areaOfStudies.name}`,
+                    value: areaOfStudies.id
+                }).appendTo(selectAreaOfStudies);
+            });
+
+
+            /*
+             * remove previously unmapped modules that have been mapped in the meantime
+             */
+            listOfUnmappedModules.forEach(oldUnmappedModule => { //Iterate through the old and updated Module list and check if module is still unmapped
+
+                let stillUnmapped = false;
+                newUnmappedModules.forEach(newUnmappedModule => {
+                    if (oldUnmappedModule.id === newUnmappedModule.id) {
+                        stillUnmapped = true; //set unmapped flag to true, since the id is also found in the updated list
                     }
+                });
+
+                if (!stillUnmapped) { //if unmapped flag is false delete module from DOM
+                    $(`.module[data-module-id=${oldUnmappedModule.id}]`).remove();
                 }
-                if (!stillUnmapped) {                                       //if unmapped flag is false delete module from DOM
-                    $('.module[data-module-id=' + oldModuleList[i].id + ']').remove();
-                }
-            }
-            
-            var idPrefix = "modulelist_module";
-            $(updatedModuleList).each(function(index, module) {             
-                var moduleToReplace = $.find('#' + idPrefix + module.id);
-                if (moduleToReplace.length != 0) {                                  //checks if module has html representation
-                    $(moduleToReplace).replaceWith(createModule(module));           //if so replace it with updated model
+            });
+
+            /*
+             * replace the text of the remaining unmapped modules
+             * their titles or acronyms may have changed
+             */
+            newUnmappedModules.forEach(module => {
+                let oldModule = $.find(`#modulelist_module${module.id}`);
+                if (oldModule.length > 0) { //checks if module has html representation
+                    $(oldModule).replaceWith(createModule(module)); //if so replace it with updated model
                 } else {
                     $(createModule(module)).appendTo($('#unmappedModulesList'));    //if it has no representation generate one and append to unmapped modules list
                 }
             });
 
-            var allModulesArea = $.find("div.modulesArea");
-            $(allModulesArea).each(function(index, modulesArea) {                   //check all modules area if they need a placeholder due to the removal of already mapped modules
+            let allModulesArea = $.find("div.modulesArea");
+            allModulesArea.forEach(modulesArea => { //check all modules area if they need a placeholder due to the removal of already mapped modules
                 checkPlaceholder($(modulesArea));
             });
 
-            listOfUnmappedModules = updatedModuleList;
-            existingModulesMap = response.existingModulesMap;
-            areaOfStudiesMap = response.areaOfStudiesMap;
+            listOfUnmappedModules = newUnmappedModules;
+            existingModulesMap = newExistingModulesMap;
+            areaOfStudiesMap = newAreaOfStudiesMap;
         },
         error: function (response) {
             console.log(response);
         }
     });
-    window.setTimeout(function() {$("#refreshButtonIcon").removeClass("fa-spin");},1000); 
+    window.setTimeout(function () {
+        $("#refreshButtonIcon").removeClass("fa-spin");
+    }, 1000);
 }
 
 /**
- * 
+ *
  * Creates the "real" html module representation, not stubs!
  */
 function createModule(module) {
     return $('<div></div>', {
-            "class": "card module",
-            "style": "background-color:rgb(" + module.areaOfStudies.colorRGB + ")",
-            id: "modulelist_module" + module.id,
-            "data-module-id": module.id,
-            draggable: true,
-            on: {
-                dragstart: drag
-            }
-        }).append(
-            $('<div></div>', {
-                "class": "card-header text-truncate",
-                html: module.code + ' ' + module.title
-            })
-        );
+        class: "card module",
+        style: `background-color:rgb(${module.areaOfStudies.colorRGB})`,
+        id: `modulelist_module${module.id}`,
+        "data-module-id": module.id,
+        draggable: true,
+        on: {
+            dragstart: drag
+        }
+    }).append(
+        $('<div></div>', {
+            class: "card-header text-truncate",
+            html: `${module.code} ${module.title}`
+        })
+    );
 }
 
 /**
@@ -415,24 +444,24 @@ function createModule(module) {
  * Sends an AJAX request to the REST controller which then saves the data to the DB.
  */
 function save() {
-    var stubsToBeMapped = [];
-    var modulesToBeMapped = [];
+    let stubsToBeMapped = [];
+    let modulesToBeMapped = [];
 
     $('#semesterContainer').children('div').each(function (semesterIndex, semester) {
         $(semester).find("div.module").each(function (moduleIndex, module) {
             if (module.hasAttribute("data-module-id")) {
 
                 //module is an existing module, not a stub
-                var moduleId = module.getAttribute("data-module-id");
-                var module = existingModulesMap[moduleId];
+                let moduleId = module.getAttribute("data-module-id");
+                module = existingModulesMap[moduleId];
                 module.semester = semesterIndex + 1;
                 modulesToBeMapped.push(module);
 
             } else if (module.hasAttribute("data-stub-id")) {
 
                 //module is a stub
-                var stubId = module.getAttribute("data-stub-id");
-                var stub = moduleStubs[stubId];
+                let stubId = module.getAttribute("data-stub-id");
+                let stub = moduleStubs[stubId];
                 stub.semester = semesterIndex + 1;
                 delete stub.stubId;
                 stubsToBeMapped.push(stub);
@@ -441,7 +470,7 @@ function save() {
         });
     });
 
-    var exregData = {
+    let exregData = {
         exReg: {
             name: $('#exReg_name').val(),
             validFrom: $('#exReg_validFrom').val(),
@@ -463,12 +492,12 @@ function save() {
         dataType: 'json',
         data: JSON.stringify(exregData),
         success: ({data = null, messages = [], redirectTo = null}, textStatus, jqXHR) => {
-            if(redirectTo != null){
+            if (redirectTo != null) {
                 // store messages
                 sessionStorage.setItem('messages', JSON.stringify(messages));
                 // redirect to wherever we're told to
                 window.location.href = redirectTo;
-            } else{
+            } else {
                 // display messages here and now
                 messages.forEach((message) => {
                     displayAlert(message);
@@ -487,7 +516,7 @@ function save() {
  * It will append all unmapped modules from the DB to the unmapped modules list.
  */
 $(document).ready(function () {
-    listOfUnmappedModules.forEach(function (module) {
+    listOfUnmappedModules.forEach(module => {
         existingModulesMap[module.id] = module;
     });
     addNewSemester();
