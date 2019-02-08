@@ -1,13 +1,3 @@
 language: java
 jdk:
 - oraclejdk8
-deploy:
-  provider: cloudfoundry
-  api: https://api.ng.bluemix.net
-  username: martin.schmollinger@reutlingen-university.de
-  password:
-    secure: j72Q43yd+q1O4GZqv3zQGBb0sI43Y9ShQqXWAdgEKtr6MWlVwgQ6oMJEfIXi9l5kqBJhYc95H40EYo49C9bijNuKnzVKxJg7/KmO0e3aoSJ1hA9Enll6D22VLPVYSaI+4RIrMA81nm7KRGqhhsmBkeRkzjMOA47n41rXP0o1Sc4ij46zbEWdvtxCT+gNHZhztq9tTMfS/0wg7ynfDYlkD4Sn+rXsNWdYSQL6GoGHE4mRuhiH8XPqi7WjjBrQ1ILScvgg7xtUkUZjpxFifrOYPdJlQEU6Q4gUvvmPZNBtgVqiFuY/SUCtZegr3L/3/TX+hJB7Y1hul0B+oYDind28PTtLXQ6pjgIaW+mOANGfAUXmscQw/7f8clqw9Ph0W6QmgC0DJjl+x4h0Sic/1zGoP0xTJgQC9MpqNoxFNk+qyHNk/VxYT+Q7VrxhWKdQOsMT6Nn940nnrG35SBzHNzxsaoHxyeW+CKB3SK5NWpHaGO8xNm/62wGx+ZAOqEU4Vq0jF0SOeQAw1GDePs/lXT+E+yFJi2OZwBuRpOkbHybCBUgsylkuOe7wnTjI3YMUe7Bj4hBcP+AVOyMFR5js/wEfsClscJLI4f5XREjHtQaXJt3NEpmEb1i/P3S/WlBN5DNBQdUt3BlDPHQfz/LybvzYlleZMglTCAfruyA2e7bPP44=
-  organization: MyCurriculum
-  space: dev
-  on:
-    repo: turncodr/my-curriculum
