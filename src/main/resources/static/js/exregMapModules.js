@@ -278,7 +278,7 @@ function createStub() {
             code: $('#stub_code').val(),
             title: $('#stub_title').val(),
             areaOfStudies: areaOfStudiesMap[$('#areaOfStudies').val().replace("#", "")],
-            lecturers: $('#stub_lecturers').val(),
+            moduleCoordinator: $('#stub_coordinator').val(),
             stubId: nextStubId
         };
         moduleStubs[nextStubId] = stub;
