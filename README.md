@@ -1,18 +1,18 @@
 # my-curriculum
-A cloud-native application for managing the curriculum and syllabi handbooks of degree programs with Spring Boot
+A cloud-native application for managing the curriculum and syllabi handbooks of degree programs with Spring Boot.  
+This fork now runs independently and will no longer update from turncodr/my-curriculum.
 
 ## Getting Started
-The following steps will take you to the start:
-The prerequisite to work on this project is to install JDK 8 (or later) on your system.
 
-Next install the project building tool Maven.
+1. Install JDK 8 (or later).
 
-The third program you'll need to participate is the version control tool git.
+1. Install git.
 
-If you don't have a GitHub-Account yet, create one [here](https://github.com/) and fork this repository.
+1. If you don't have a GitHub-Account yet, create one [here](https://github.com/) and fork this repository.
 
-Clone the repository via `git clone https://github.com/yourgithubname/my-curriculum.git`
+1. Clone your forked repository via `git clone https://github.com/yourgithubname/my-curriculum.git`
 
-Add the remote repository *upstream* via `git remote add upstream https://github.com/turncodr/my-curriculum.git`
+1. Add the remote repository *upstream* via `git remote add upstream https://github.com/bestyan/my-curriculum.git`
 
-Start the application by navigating to the project folder and executing `./mvnw spring-boot:run`
+1. Start the application by navigating to the project folder and executing `./mvnw spring-boot:run`  
+If you have Maven installed you can also use `mvn spring-boot:run`.
