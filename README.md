@@ -16,3 +16,9 @@ This fork now runs independently and will no longer update from turncodr/my-curr
 
 1. Start the application by navigating to the project folder and executing `./mvnw spring-boot:run`  
 If you have Maven installed you can also use `mvn spring-boot:run`.
+
+## Persisting data into db
+
+If you want to persist data into a db, you should start the application with the spring profile 'with_db'.
+This profile enables the DatabaseConfiguration class which configures the jdbc driver and connects to a mysql db. 
+When you start the application with the db profile make sure that mysql is running, otherwise will encounter some exceptions and the application won't start. 
