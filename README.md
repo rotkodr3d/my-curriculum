@@ -21,4 +21,5 @@ If you have Maven installed you can also use `mvn spring-boot:run`.
 
 If you want to persist data into a db, you should start the application with the spring profile 'with_db'.
 This profile enables the DatabaseConfiguration class which configures the jdbc driver and connects to a mysql db. 
-When you start the application with the db profile make sure that mysql is running, otherwise will encounter some exceptions and the application won't start. 
+When you start the application with the db profile make sure that mysql is running,
+otherwise you will encounter some exceptions and the application won't start. 
